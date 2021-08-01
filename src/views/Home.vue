@@ -1,17 +1,34 @@
 <template>
   <div class="home">
-    <v-row>
-      <v-col cols="12" v-for="people in data" :key="people._id">
+    <div class="search-wrapper">
+      <form onsubmit="event.preventDefault();" role="search">
+        <label for="search">Search for stuff</label>
+        <input
+          id="search"
+          type="search"
+          v-model="inSearchBar"
+          placeholder="Search..."
+          autofocus
+          required
+        />
+        <button type="submit">Go</button>
+      </form>
+
+      <!-- <input type="text" v-model="inSearchBar" placeholder="Search title.." />
+      <label>Search title:</label> -->
+    </div>
+    <div class="people-container">
+      <div class="people" v-for="people in filteredList" :key="people._id">
         <People
           :name="people.name"
           :age="people.age"
           :eyeColor="people.eyeColor"
           :gender="people.gender"
           :location="people.location"
-          :preferences="people.location"
+          :preferences="people.preferences"
         />
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +45,7 @@ export default {
   data() {
     return {
       data: json,
+      inSearchBar: "",
       // selected: {
       //   age: 0,
       //   name: '',
@@ -39,11 +57,21 @@ export default {
       // }
     };
   },
+  computed: {
+    filteredList() {
+      return this.data.filter((person) => {
+        return (
+          person.name.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
+          -1
+        );
+      });
+    },
+  },
   // methods: {
   // },
 
   mounted() {
-    console.log(this.data);
+    // console.log(this.data);
   },
 };
 </script>
