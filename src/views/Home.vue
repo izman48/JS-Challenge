@@ -131,8 +131,8 @@ export default {
         return (
           searchString.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
             -1 &&
-          person.age > this.minAge &&
-          person.age < this.maxAge &&
+          person.age >= this.minAge &&
+          person.age <= this.maxAge &&
           person.gender.toLowerCase().indexOf(genderSelect.toLowerCase()) !=
             -1 &&
           person.eyeColor.toLowerCase().indexOf(this.eyeColor.toLowerCase()) !=
