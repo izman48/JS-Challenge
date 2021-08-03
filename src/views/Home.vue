@@ -12,14 +12,14 @@
           required
         />
         <select id="minAge" v-model="minAge">
-          <option disabled value="">Min age</option>
+          <option disabled value="">Min-age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
         </select>
 
         <select id="maxAge" v-model="maxAge">
-          <option disabled value="">Max age</option>
+          <option disabled value="">Max-age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
@@ -40,6 +40,12 @@
           <option disabled value="">Pet</option>
           <option v-for="pet in pets" :key="pet.key" :value="pet.value">
             {{ pet.value }}
+          </option>
+        </select>
+        <select id="fruit" v-model="fruit">
+          <option disabled value="">Fruit</option>
+          <option v-for="fruit in fruits" :key="fruit.key" :value="fruit.value">
+            {{ fruit.value }}
           </option>
         </select>
 
@@ -97,8 +103,10 @@ export default {
         { key: 3, value: "other" },
       ],
       pets: [],
+      fruits: [],
       inSearchBar: "",
       pet: "",
+      fruit: "",
       minAge: -1,
       maxAge: 10000,
       gender: "",
@@ -120,11 +128,23 @@ export default {
       for (let i in this.data) {
         pets.add(this.data[i].preferences.pet);
       }
-      console.log(pets.size);
+      // console.log(pets.size);
       let petsArray = Array.from(pets);
       petsArray.unshift("all");
       for (let i in petsArray) {
         this.pets.push({ key: i, value: petsArray[i] });
+      }
+    },
+    fruitData() {
+      let fruits = new Set();
+      for (let i in this.data) {
+        fruits.add(this.data[i].preferences.fruit);
+      }
+      // console.log(pets.size);
+      let fruitsArray = Array.from(fruits);
+      fruitsArray.unshift("all");
+      for (let i in fruitsArray) {
+        this.fruits.push({ key: i, value: fruitsArray[i] });
       }
     },
   },
@@ -133,6 +153,7 @@ export default {
       return this.data.filter((person) => {
         let genderSelect = "";
         let petSelect = "";
+        let fruitSelect = "";
         let searchString =
           person.name +
           " " +
@@ -155,6 +176,9 @@ export default {
         if (this.pet != "all") {
           petSelect = this.pet;
         }
+        if (this.fruit != "all") {
+          fruitSelect = this.fruit;
+        }
         return (
           searchString.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
             -1 &&
@@ -163,6 +187,9 @@ export default {
           person.preferences.pet
             .toLowerCase()
             .indexOf(petSelect.toLowerCase()) != -1 &&
+          person.preferences.fruit
+            .toLowerCase()
+            .indexOf(fruitSelect.toLowerCase()) != -1 &&
           person.gender.toLowerCase().indexOf(genderSelect.toLowerCase()) !=
             -1 &&
           person.eyeColor.toLowerCase().indexOf(this.eyeColor.toLowerCase()) !=
@@ -180,6 +207,7 @@ export default {
       this.ages.push({ key: i, value: i });
     }
     this.petData();
+    this.fruitData();
   },
 };
 </script>
