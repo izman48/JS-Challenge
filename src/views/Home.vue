@@ -12,14 +12,14 @@
           required
         />
         <select id="minAge" v-model="minAge">
-          <option disabled value="">Min-age</option>
+          <option disabled value="">Min-Age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
         </select>
 
         <select id="maxAge" v-model="maxAge">
-          <option disabled value="">Max-age</option>
+          <option disabled value="">Max-Age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
@@ -49,14 +49,12 @@
           </option>
         </select>
 
-        <input
-          id="eyeColor"
-          type="text"
-          v-model="eyeColor"
-          placeholder="Eye Color"
-          autofocus
-          required
-        />
+        <select id="fruit" v-model="eyeColor">
+          <option disabled value="">Eye-Color</option>
+          <option v-for="eye in eyeColours" :key="eye.key" :value="eye.value">
+            {{ eye.value }}
+          </option>
+        </select>
         <button type="submit">Go</button>
       </form>
     </div>
@@ -104,6 +102,7 @@ export default {
       ],
       pets: [],
       fruits: [],
+      eyeColours: [],
       inSearchBar: "",
       pet: "",
       fruit: "",
@@ -147,6 +146,18 @@ export default {
         this.fruits.push({ key: i, value: fruitsArray[i] });
       }
     },
+    eyeData() {
+      let eyes = new Set();
+      for (let i in this.data) {
+        eyes.add(this.data[i].eyeColor);
+      }
+      // console.log(pets.size);
+      let eyeArray = Array.from(eyes);
+      eyeArray.unshift("all");
+      for (let i in eyeArray) {
+        this.eyeColours.push({ key: i, value: eyeArray[i] });
+      }
+    },
   },
   computed: {
     filteredList() {
@@ -154,6 +165,7 @@ export default {
         let genderSelect = "";
         let petSelect = "";
         let fruitSelect = "";
+        let eyeSelect = "";
         let searchString =
           person.name +
           " " +
@@ -179,6 +191,9 @@ export default {
         if (this.fruit != "all") {
           fruitSelect = this.fruit;
         }
+        if (this.eyeColor != "all") {
+          eyeSelect = this.eyeColor;
+        }
         return (
           searchString.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
             -1 &&
@@ -192,8 +207,7 @@ export default {
             .indexOf(fruitSelect.toLowerCase()) != -1 &&
           person.gender.toLowerCase().indexOf(genderSelect.toLowerCase()) !=
             -1 &&
-          person.eyeColor.toLowerCase().indexOf(this.eyeColor.toLowerCase()) !=
-            -1
+          person.eyeColor.toLowerCase().indexOf(eyeSelect.toLowerCase()) != -1
         );
       });
     },
@@ -208,6 +222,7 @@ export default {
     }
     this.petData();
     this.fruitData();
+    this.eyeData();
   },
 };
 </script>

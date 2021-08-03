@@ -3,6 +3,9 @@
     <!-- <h1>hi</h1> -->
     <GChart type="PieChart" :data="ageRange" :options="chartOptions" />
     <GChart type="PieChart" :data="genderRange" :options="chartOptions" />
+    <GChart type="PieChart" :data="petRange" :options="chartOptions" />
+    <GChart type="PieChart" :data="fruitRange" :options="chartOptions" />
+    <GChart type="PieChart" :data="eyeRange" :options="chartOptions" />
   </div>
 </template>
 
@@ -18,6 +21,11 @@ export default {
     data: Object,
   },
   methods: {
+    getOccurrence(array, value) {
+      var count = 0;
+      array.forEach((v) => v === value && count++);
+      return count;
+    },
     ageData() {
       let ages = [];
       for (let key in this.data) {
@@ -52,36 +60,81 @@ export default {
     },
     genderData() {
       let peopleGenders = [];
+      let genderSet = new Set();
       for (let key in this.data) {
+        genderSet.add(this.data[key].gender);
         peopleGenders.push(this.data[key].gender);
       }
+      let genders = Array.from(genderSet);
       // get age ranges that have more than 0 elements
       let genderRange = [["Gender", "Number of people"]];
-      let maleCount = 0;
-      let femaleCount = 0;
-      let otherCount = 0;
-      for (let i = 0; i < peopleGenders.length; i++) {
-        if (peopleGenders[i] == "male") {
-          maleCount++;
-        }
-        if (peopleGenders[i] == "female") {
-          femaleCount++;
-        }
-        if (peopleGenders[i] == "other") {
-          otherCount++;
-        }
+      for (let i = 0; i < genders.length; i++) {
+        let count = this.getOccurrence(peopleGenders, genders[i]);
+        genderRange.push([genders[i], count]);
       }
-      genderRange.push(["male", maleCount]);
-      genderRange.push(["female", femaleCount]);
-      genderRange.push(["other", otherCount]);
       // console.log(genderRange);
       this.genderRange = genderRange;
+    },
+
+    petData() {
+      let peoplePets = [];
+      let petSet = new Set();
+      for (let key in this.data) {
+        petSet.add(this.data[key].preferences.pet);
+        peoplePets.push(this.data[key].preferences.pet);
+      }
+      let pets = Array.from(petSet);
+      let petRange = [["Pet", "Number of people"]];
+
+      for (let i = 0; i < pets.length; i++) {
+        let count = this.getOccurrence(peoplePets, pets[i]);
+        petRange.push([pets[i], count]);
+      }
+      // console.log(petRange);
+      this.petRange = petRange;
+    },
+    fruitData() {
+      let peopleFruits = [];
+      let fruitSet = new Set();
+      for (let key in this.data) {
+        fruitSet.add(this.data[key].preferences.fruit);
+        peopleFruits.push(this.data[key].preferences.fruit);
+      }
+      let fruits = Array.from(fruitSet);
+      let fruitRange = [["Fruits", "Number of people"]];
+
+      for (let i = 0; i < fruits.length; i++) {
+        let count = this.getOccurrence(peopleFruits, fruits[i]);
+        fruitRange.push([fruits[i], count]);
+      }
+      // console.log(genderRange);
+      this.fruitRange = fruitRange;
+    },
+    eyeData() {
+      let peopleEyes = [];
+      let eyeSet = new Set();
+      for (let key in this.data) {
+        eyeSet.add(this.data[key].eyeColor);
+        peopleEyes.push(this.data[key].eyeColor);
+      }
+      let eyes = Array.from(eyeSet);
+      let eyeRange = [["Eyes", "Number of people"]];
+
+      for (let i = 0; i < eyes.length; i++) {
+        let count = this.getOccurrence(peopleEyes, eyes[i]);
+        eyeRange.push([eyes[i], count]);
+      }
+      // console.log(genderRange);
+      this.eyeRange = eyeRange;
     },
   },
   mounted() {
     // console.log(ageRange);
     this.ageData();
     this.genderData();
+    this.petData();
+    this.fruitData();
+    this.eyeData();
   },
   // computed: {
   //   ageRanges: function () {
@@ -129,6 +182,9 @@ export default {
       },
       ageRange: [],
       genderRange: [],
+      petRange: [],
+      fruitRange: [],
+      eyeRange: [],
     };
   },
 };
