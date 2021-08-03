@@ -49,7 +49,7 @@
     </div>
 
     <div class="charts-wrapper">
-      <!-- <Charts :data="data" /> -->
+      <Charts :data="filteredList" />
     </div>
 
     <div class="people-container">
@@ -70,14 +70,14 @@
 <script>
 // @ is an alias to /src
 import People from "@/components/People.vue";
-// import Charts from "@/components/Charts.vue";
+import Charts from "@/components/Charts.vue";
 import json from "@/assets/people.json";
 
 export default {
   name: "Home",
   components: {
     People,
-    // Charts,
+    Charts,
   },
   data() {
     return {
