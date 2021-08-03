@@ -1,6 +1,6 @@
 <template>
   <div class="people">
-    <h1>{{ name }} {{ age }}</h1>
+    <h1>{{ person.name }} {{ person.age }}</h1>
   </div>
 </template>
 
@@ -8,13 +8,7 @@
 export default {
   name: "People",
   props: {
-    id: String,
-    age: Number,
-    eyeColor: String,
-    name: String,
-    gender: String,
-    location: Object,
-    preferences: Object,
+    person: Object,
   },
 };
 </script>

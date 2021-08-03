@@ -65,14 +65,7 @@
 
     <div class="people-container">
       <div class="people" v-for="people in filteredList" :key="people._id">
-        <People
-          :name="people.name"
-          :age="people.age"
-          :eyeColor="people.eyeColor"
-          :gender="people.gender"
-          :location="people.location"
-          :preferences="people.preferences"
-        />
+        <People :person="people" />
       </div>
     </div>
   </div>
