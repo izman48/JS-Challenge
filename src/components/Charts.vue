@@ -1,7 +1,8 @@
 <template>
   <div class="charts">
-    <h1>hi</h1>
+    <!-- <h1>hi</h1> -->
     <GChart type="PieChart" :data="ageRange" :options="chartOptions" />
+    <GChart type="PieChart" :data="genderRange" :options="chartOptions" />
   </div>
 </template>
 
@@ -17,7 +18,7 @@ export default {
     data: Object,
   },
   methods: {
-    ageRanges() {
+    ageData() {
       let ages = [];
       for (let key in this.data) {
         ages.push(this.data[key].age);
@@ -49,10 +50,38 @@ export default {
       ageRange.push([ageString, ageCount]);
       this.ageRange = ageRange;
     },
+    genderData() {
+      let peopleGenders = [];
+      for (let key in this.data) {
+        peopleGenders.push(this.data[key].gender);
+      }
+      // get age ranges that have more than 0 elements
+      let genderRange = [["Gender", "Number of people"]];
+      let maleCount = 0;
+      let femaleCount = 0;
+      let otherCount = 0;
+      for (let i = 0; i < peopleGenders.length; i++) {
+        if (peopleGenders[i] == "male") {
+          maleCount++;
+        }
+        if (peopleGenders[i] == "female") {
+          femaleCount++;
+        }
+        if (peopleGenders[i] == "other") {
+          otherCount++;
+        }
+      }
+      genderRange.push(["male", maleCount]);
+      genderRange.push(["female", femaleCount]);
+      genderRange.push(["other", otherCount]);
+      // console.log(genderRange);
+      this.genderRange = genderRange;
+    },
   },
   mounted() {
     // console.log(ageRange);
-    this.ageRanges();
+    this.ageData();
+    this.genderData();
   },
   // computed: {
   //   ageRanges: function () {
@@ -95,7 +124,7 @@ export default {
         ["Sleep", 5],
       ],
       chartOptions: {
-        width: 1100,
+        width: 400,
         height: 400,
       },
       ageRange: [],

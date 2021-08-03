@@ -36,6 +36,13 @@
           </option>
         </select>
 
+        <select id="pet" v-model="pet">
+          <option disabled value="">Pet</option>
+          <option v-for="pet in pets" :key="pet.key" :value="pet.value">
+            {{ pet.value }}
+          </option>
+        </select>
+
         <input
           id="eyeColor"
           type="text"
@@ -89,7 +96,9 @@ export default {
         { key: 2, value: "female" },
         { key: 3, value: "other" },
       ],
+      pets: [],
       inSearchBar: "",
+      pet: "",
       minAge: -1,
       maxAge: 10000,
       gender: "",
@@ -105,10 +114,25 @@ export default {
       // }
     };
   },
+  methods: {
+    petData() {
+      let pets = new Set();
+      for (let i in this.data) {
+        pets.add(this.data[i].preferences.pet);
+      }
+      console.log(pets.size);
+      let petsArray = Array.from(pets);
+      petsArray.unshift("all");
+      for (let i in petsArray) {
+        this.pets.push({ key: i, value: petsArray[i] });
+      }
+    },
+  },
   computed: {
     filteredList() {
       return this.data.filter((person) => {
         let genderSelect = "";
+        let petSelect = "";
         let searchString =
           person.name +
           " " +
@@ -128,11 +152,17 @@ export default {
         if (this.gender != "all") {
           genderSelect = this.gender;
         }
+        if (this.pet != "all") {
+          petSelect = this.pet;
+        }
         return (
           searchString.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
             -1 &&
           person.age >= this.minAge &&
           person.age <= this.maxAge &&
+          person.preferences.pet
+            .toLowerCase()
+            .indexOf(petSelect.toLowerCase()) != -1 &&
           person.gender.toLowerCase().indexOf(genderSelect.toLowerCase()) !=
             -1 &&
           person.eyeColor.toLowerCase().indexOf(this.eyeColor.toLowerCase()) !=
@@ -149,6 +179,7 @@ export default {
     for (var i = 0; i < 100; i++) {
       this.ages.push({ key: i, value: i });
     }
+    this.petData();
   },
 };
 </script>
