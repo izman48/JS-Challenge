@@ -60,7 +60,26 @@
     </div>
 
     <div class="charts-wrapper">
-      <Charts :data="filteredList" />
+      <div class="chart">
+        <h4>Pet Data</h4>
+        <Charts :chartData="petData()" />
+      </div>
+      <div class="chart">
+        <h4>Age Data</h4>
+        <Charts :chartData="ageData()" />
+      </div>
+      <div class="chart">
+        <h4>Gender Data</h4>
+        <Charts :chartData="genderData()" />
+      </div>
+      <div class="chart">
+        <h4>Eye Data</h4>
+        <Charts :chartData="eyeData()" />
+      </div>
+      <div class="chart">
+        <h4>Fruit Data</h4>
+        <Charts :chartData="fruitData()" />
+      </div>
     </div>
 
     <div class="people-container">
@@ -115,7 +134,7 @@ export default {
     };
   },
   methods: {
-    petData() {
+    petFilter() {
       let pets = new Set();
       for (let i in this.data) {
         pets.add(this.data[i].preferences.pet);
@@ -127,7 +146,7 @@ export default {
         this.pets.push({ key: i, value: petsArray[i] });
       }
     },
-    fruitData() {
+    fruitFilter() {
       let fruits = new Set();
       for (let i in this.data) {
         fruits.add(this.data[i].preferences.fruit);
@@ -139,7 +158,7 @@ export default {
         this.fruits.push({ key: i, value: fruitsArray[i] });
       }
     },
-    eyeData() {
+    eyeFilter() {
       let eyes = new Set();
       for (let i in this.data) {
         eyes.add(this.data[i].eyeColor);
@@ -150,6 +169,113 @@ export default {
       for (let i in eyeArray) {
         this.eyeColours.push({ key: i, value: eyeArray[i] });
       }
+    },
+    getOccurrence(array, value) {
+      var count = 0;
+      array.forEach((v) => v === value && count++);
+      return count;
+    },
+    ageData() {
+      let ages = [];
+      for (let key in this.filteredList) {
+        // console.log(this.filteredList);
+        ages.push(this.filteredList[key].age);
+      }
+      ages.sort(function (a, b) {
+        return a - b;
+      });
+      // get age ranges that have more than 0 elements
+      let maxAge = 0;
+      let ageCount = 0;
+      let range = 5;
+      let ageString = "";
+      let ageRange = [["Age Range", "Number of people"]];
+      for (let i = 0; i < ages.length; i++) {
+        if (ages[i] <= maxAge) {
+          ageCount++;
+        } else {
+          if (ageCount > 0) {
+            ageRange.push([ageString, ageCount]);
+            ageCount = 0;
+          }
+
+          while (ages[i] > maxAge) {
+            maxAge += range;
+          }
+          ageString = (maxAge - range).toString() + " - " + maxAge.toString();
+        }
+      }
+      ageRange.push([ageString, ageCount]);
+      return ageRange;
+    },
+    genderData() {
+      let peopleGenders = [];
+      let genderSet = new Set();
+      for (let key in this.filteredList) {
+        genderSet.add(this.filteredList[key].gender);
+        peopleGenders.push(this.filteredList[key].gender);
+      }
+      let genders = Array.from(genderSet);
+      // get age ranges that have more than 0 elements
+      let genderRange = [["Gender", "Number of people"]];
+      for (let i = 0; i < genders.length; i++) {
+        let count = this.getOccurrence(peopleGenders, genders[i]);
+        genderRange.push([genders[i], count]);
+      }
+      // console.log(genderRange);
+      return genderRange;
+    },
+
+    petData() {
+      let peoplePets = [];
+      let petSet = new Set();
+      for (let key in this.filteredList) {
+        petSet.add(this.filteredList[key].preferences.pet);
+        peoplePets.push(this.filteredList[key].preferences.pet);
+      }
+      let pets = Array.from(petSet);
+      let petRange = [["Pet", "Number of people"]];
+
+      for (let i = 0; i < pets.length; i++) {
+        let count = this.getOccurrence(peoplePets, pets[i]);
+        petRange.push([pets[i], count]);
+      }
+      // console.log(petRange);
+      return petRange;
+    },
+    fruitData() {
+      let peopleFruits = [];
+      let fruitSet = new Set();
+      for (let key in this.filteredList) {
+        fruitSet.add(this.filteredList[key].preferences.fruit);
+        peopleFruits.push(this.filteredList[key].preferences.fruit);
+      }
+      let fruits = Array.from(fruitSet);
+      let fruitRange = [["Fruits", "Number of people"]];
+
+      for (let i = 0; i < fruits.length; i++) {
+        let count = this.getOccurrence(peopleFruits, fruits[i]);
+        fruitRange.push([fruits[i], count]);
+      }
+      // console.log(genderRange);
+      return fruitRange;
+    },
+    eyeData() {
+      let peopleEyes = [];
+      let eyeSet = new Set();
+      for (let key in this.filteredList) {
+        eyeSet.add(this.filteredList[key].eyeColor);
+        peopleEyes.push(this.filteredList[key].eyeColor);
+      }
+      let eyes = Array.from(eyeSet);
+      let eyeRange = [["Eyes", "Number of people"]];
+
+      for (let i = 0; i < eyes.length; i++) {
+        let count = this.getOccurrence(peopleEyes, eyes[i]);
+        eyeRange.push([eyes[i], count]);
+      }
+      // console.log(genderRange);
+      return eyeRange;
     },
   },
   computed: {
@@ -213,19 +339,32 @@ export default {
     for (var i = 0; i < 100; i++) {
       this.ages.push({ key: i, value: i });
     }
-    this.petData();
-    this.fruitData();
-    this.eyeData();
+    this.petFilter();
+    this.fruitFilter();
+    this.eyeFilter();
   },
 };
 </script>
 
-<style>
+<style scoped>
 .search-wrapper {
   display: flex;
   padding: 10px;
   background: orange;
   align-items: center;
+}
+
+.charts-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1rem;
+  padding: 1rem;
+  box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11),
+    0 5px 15px 0 rgba(0, 0, 0, 0.08);
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  /* border-left: 0 solid #00ff99; */
+  transition: border-left 300ms ease-in-out, padding-left 300ms ease-in-out;
 }
 
 input {
