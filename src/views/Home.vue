@@ -95,7 +95,8 @@
 // @ is an alias to /src
 import People from "@/components/People.vue";
 import Charts from "@/components/Charts.vue";
-import json from "@/assets/people.json";
+// import json from "@/assets/people.json";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Home",
@@ -105,14 +106,9 @@ export default {
   },
   data() {
     return {
-      data: json,
+      data: {},
       ages: [],
-      genders: [
-        { key: 0, value: "all" },
-        { key: 1, value: "male" },
-        { key: 2, value: "female" },
-        { key: 3, value: "other" },
-      ],
+      genders: [],
       pets: [],
       type: "PieChart",
       fruits: [],
@@ -137,6 +133,7 @@ export default {
     };
   },
   methods: {
+    // ...mapGetters(["getData"]),
     switchChartType() {
       if (this.buttonMessage == "Switch to Bar Chart") {
         this.buttonMessage = "Switch to Pie Chart";
@@ -144,6 +141,21 @@ export default {
       } else {
         this.type = "PieChart";
         this.buttonMessage = "Switch to Bar Chart";
+      }
+    },
+    genderFilter() {
+      let genders = new Set();
+      // let data = this.allData;
+      // console.log("test");
+      // console.log(data);
+      for (let i in this.data) {
+        genders.add(this.data[i].gender);
+      }
+      // console.log(pets.size);
+      let gendersArray = Array.from(genders);
+      gendersArray.unshift("all");
+      for (let i in gendersArray) {
+        this.genders.push({ key: i, value: gendersArray[i] });
       }
     },
     petFilter() {
@@ -291,8 +303,12 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(["getData"]),
+    allData() {
+      return this.getData;
+    },
     filteredList() {
-      return this.data.filter((person) => {
+      return this.getData.filter((person) => {
         let genderSelect = "";
         let petSelect = "";
         let fruitSelect = "";
@@ -351,6 +367,9 @@ export default {
     for (var i = 0; i < 100; i++) {
       this.ages.push({ key: i, value: i });
     }
+    // console.log(this.allData);
+    this.data = this.allData;
+    this.genderFilter();
     this.petFilter();
     this.fruitFilter();
     this.eyeFilter();
