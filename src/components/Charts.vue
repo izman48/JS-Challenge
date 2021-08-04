@@ -1,6 +1,12 @@
 <template>
   <div class="charts">
-    <GChart type="PieChart" :data="chartData" :options="chartOptions" />
+    <GChart
+      :settings="{ packages: ['corechart', 'bar'] }"
+      :type="type"
+      :resizeDebounce="500"
+      :data="chartData"
+      :options="chartOptions"
+    />
   </div>
 </template>
 
@@ -14,22 +20,21 @@ export default {
   },
   props: {
     chartData: Array,
+    type: String,
   },
   methods: {},
   mounted() {},
   data() {
     return {
       chartOptions: {
-        width: 400,
-        height: 400,
+        width: 600,
+        height: 300,
       },
-      ageRange: [],
-      genderRange: [],
-      petRange: [],
-      fruitRange: [],
-      eyeRange: [],
     };
   },
+  // computed: {
+  //   chartO
+  // }
 };
 </script>
 

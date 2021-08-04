@@ -59,26 +59,27 @@
       </form>
     </div>
 
+    <button v-on:click="switchChartType">{{ buttonMessage }}</button>
     <div class="charts-wrapper">
       <div class="chart">
         <h4>Pet Data</h4>
-        <Charts :chartData="petData()" />
+        <Charts :chartData="petData()" :type="type" />
       </div>
       <div class="chart">
         <h4>Age Data</h4>
-        <Charts :chartData="ageData()" />
+        <Charts :chartData="ageData()" :type="type" />
       </div>
       <div class="chart">
         <h4>Gender Data</h4>
-        <Charts :chartData="genderData()" />
+        <Charts :chartData="genderData()" :type="type" />
       </div>
       <div class="chart">
         <h4>Eye Data</h4>
-        <Charts :chartData="eyeData()" />
+        <Charts :chartData="eyeData()" :type="type" />
       </div>
       <div class="chart">
         <h4>Fruit Data</h4>
-        <Charts :chartData="fruitData()" />
+        <Charts :chartData="fruitData()" :type="type" />
       </div>
     </div>
 
@@ -113,6 +114,7 @@ export default {
         { key: 3, value: "other" },
       ],
       pets: [],
+      type: "PieChart",
       fruits: [],
       eyeColours: [],
       inSearchBar: "",
@@ -122,6 +124,7 @@ export default {
       maxAge: 10000,
       gender: "",
       eyeColor: "",
+      buttonMessage: "Switch to Bar Chart",
       // selected: {
       //   age: 0,
       //   name: '',
@@ -134,6 +137,15 @@ export default {
     };
   },
   methods: {
+    switchChartType() {
+      if (this.buttonMessage == "Switch to Bar Chart") {
+        this.buttonMessage = "Switch to Pie Chart";
+        this.type = "BarChart";
+      } else {
+        this.type = "PieChart";
+        this.buttonMessage = "Switch to Bar Chart";
+      }
+    },
     petFilter() {
       let pets = new Set();
       for (let i in this.data) {
@@ -365,6 +377,10 @@ export default {
   border-radius: 0.5rem;
   /* border-left: 0 solid #00ff99; */
   transition: border-left 300ms ease-in-out, padding-left 300ms ease-in-out;
+}
+
+.charts-wrapper > button {
+  display: inline-block;
 }
 
 input {
