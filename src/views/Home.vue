@@ -11,24 +11,24 @@
           autofocus
           required
         />
-        <select id="minAge" v-model="minAge">
+        <select id="minAge" :value="minAge" @input="updateMinAge">
           <option disabled value="">Min-Age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
         </select>
 
-        <select id="maxAge" v-model="maxAge">
+        <select id="maxAge" :value="maxAge" @input="updateMaxAge">
           <option disabled value="">Max-Age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
             {{ age.value }}
           </option>
         </select>
 
-        <select id="gender" v-model="gender">
+        <select id="gender" :value="gender" @input="updateGender">
           <option disabled value="">Gender</option>
           <option
-            v-for="gender in genders"
+            v-for="gender in genderFilters"
             :key="gender.key"
             :value="gender.value"
           >
@@ -36,22 +36,30 @@
           </option>
         </select>
 
-        <select id="pet" v-model="pet">
+        <select id="pet" :value="pet" @input="updatePet">
           <option disabled value="">Pet</option>
-          <option v-for="pet in pets" :key="pet.key" :value="pet.value">
+          <option v-for="pet in petFilters" :key="pet.key" :value="pet.value">
             {{ pet.value }}
           </option>
         </select>
-        <select id="fruit" v-model="fruit">
+        <select id="fruit" :value="fruit" @input="updateFruit">
           <option disabled value="">Fruit</option>
-          <option v-for="fruit in fruits" :key="fruit.key" :value="fruit.value">
+          <option
+            v-for="fruit in fruitFilters"
+            :key="fruit.key"
+            :value="fruit.value"
+          >
             {{ fruit.value }}
           </option>
         </select>
 
-        <select id="fruit" v-model="eyeColor">
+        <select id="eyeColor" :value="eyeColor" @input="updateEyeColor">
           <option disabled value="">Eye-Color</option>
-          <option v-for="eye in eyeColours" :key="eye.key" :value="eye.value">
+          <option
+            v-for="eye in eyeColorFilters"
+            :key="eye.key"
+            :value="eye.value"
+          >
             {{ eye.value }}
           </option>
         </select>
@@ -84,8 +92,8 @@
     </div>
 
     <div class="people-container">
-      <div class="people" v-for="people in filteredList" :key="people._id">
-        <People :person="people" />
+      <div class="people" v-for="(people, i) in filteredList" :key="people._id">
+        <People :person="people" :index="i" />
       </div>
     </div>
   </div>
@@ -95,8 +103,7 @@
 // @ is an alias to /src
 import People from "@/components/People.vue";
 import Charts from "@/components/Charts.vue";
-// import json from "@/assets/people.json";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Home",
@@ -106,34 +113,25 @@ export default {
   },
   data() {
     return {
-      data: {},
       ages: [],
-      genders: [],
-      pets: [],
       type: "PieChart",
-      fruits: [],
-      eyeColours: [],
       inSearchBar: "",
-      pet: "",
-      fruit: "",
-      minAge: -1,
-      maxAge: 10000,
-      gender: "",
-      eyeColor: "",
       buttonMessage: "Switch to Bar Chart",
-      // selected: {
-      //   age: 0,
-      //   name: '',
-      //   gender: '',
-      //   location: {latitude: 0.0,
-      //   }
-      //   },
-      //   preferences: Object,
-      // }
     };
   },
   methods: {
-    // ...mapGetters(["getData"]),
+    ...mapActions([
+      "updateMinAge",
+      "updateMaxAge",
+      "updateGender",
+      "updateFruit",
+      "updatePet",
+      "updateEyeColor",
+      "updateGenderFilters",
+      "updatePetFilters",
+      "updateFruitFilters",
+      "updateEyeFilters",
+    ]),
     switchChartType() {
       if (this.buttonMessage == "Switch to Bar Chart") {
         this.buttonMessage = "Switch to Pie Chart";
@@ -143,56 +141,12 @@ export default {
         this.buttonMessage = "Switch to Bar Chart";
       }
     },
-    genderFilter() {
-      let genders = new Set();
-      // let data = this.allData;
-      // console.log("test");
-      // console.log(data);
-      for (let i in this.data) {
-        genders.add(this.data[i].gender);
-      }
-      // console.log(pets.size);
-      let gendersArray = Array.from(genders);
-      gendersArray.unshift("all");
-      for (let i in gendersArray) {
-        this.genders.push({ key: i, value: gendersArray[i] });
-      }
-    },
-    petFilter() {
-      let pets = new Set();
-      for (let i in this.data) {
-        pets.add(this.data[i].preferences.pet);
-      }
-      // console.log(pets.size);
-      let petsArray = Array.from(pets);
-      petsArray.unshift("all");
-      for (let i in petsArray) {
-        this.pets.push({ key: i, value: petsArray[i] });
-      }
-    },
-    fruitFilter() {
-      let fruits = new Set();
-      for (let i in this.data) {
-        fruits.add(this.data[i].preferences.fruit);
-      }
-      // console.log(pets.size);
-      let fruitsArray = Array.from(fruits);
-      fruitsArray.unshift("all");
-      for (let i in fruitsArray) {
-        this.fruits.push({ key: i, value: fruitsArray[i] });
-      }
-    },
-    eyeFilter() {
-      let eyes = new Set();
-      for (let i in this.data) {
-        eyes.add(this.data[i].eyeColor);
-      }
-      // console.log(pets.size);
-      let eyeArray = Array.from(eyes);
-      eyeArray.unshift("all");
-      for (let i in eyeArray) {
-        this.eyeColours.push({ key: i, value: eyeArray[i] });
-      }
+    getFilters() {
+      // this.data = this.allData;
+      this.updateGenderFilters();
+      this.updatePetFilters();
+      this.updateFruitFilters();
+      this.updateEyeFilters();
     },
     getOccurrence(array, value) {
       var count = 0;
@@ -303,7 +257,50 @@ export default {
     },
   },
   computed: {
-    ...mapGetters(["getData"]),
+    ...mapGetters([
+      "getData",
+      "getMinAge",
+      "getMaxAge",
+      "getPet",
+      "getFruit",
+      "getGender",
+      "getEyeColor",
+      "getGenders",
+      "getPets",
+      "getFruits",
+      "getEyeColors",
+    ]),
+    minAge() {
+      return this.getMinAge;
+    },
+    maxAge() {
+      return this.getMaxAge;
+    },
+    pet() {
+      return this.getPet;
+    },
+    fruit() {
+      return this.getFruit;
+    },
+    gender() {
+      return this.getGender;
+    },
+    eyeColor() {
+      return this.getEyeColor;
+    },
+    genderFilters() {
+      return this.getGenders;
+    },
+    petFilters() {
+      return this.getPets;
+    },
+    fruitFilters() {
+      // console.log(this.getFruits);
+      return this.getFruits;
+    },
+    eyeColorFilters() {
+      return this.getEyeColors;
+    },
     allData() {
       return this.getData;
     },
@@ -322,18 +319,12 @@ export default {
           " " +
           person.gender +
           " ";
-        // console.log(this.maxAge);
-        // if (this.maxAge == 0) {
-        //   this.maxAge = 10000;
-        // }
-        // for (let age in this.ages) {
-        //   console.log(age);
-        // }
         if (this.gender != "all") {
           genderSelect = this.gender;
         }
         if (this.pet != "all") {
           petSelect = this.pet;
+          // console.log(person);
         }
         if (this.fruit != "all") {
           fruitSelect = this.fruit;
@@ -346,21 +337,23 @@ export default {
             -1 &&
           person.age >= this.minAge &&
           person.age <= this.maxAge &&
-          person.preferences.pet
-            .toLowerCase()
-            .indexOf(petSelect.toLowerCase()) != -1 &&
-          person.preferences.fruit
-            .toLowerCase()
-            .indexOf(fruitSelect.toLowerCase()) != -1 &&
-          person.gender.toLowerCase().indexOf(genderSelect.toLowerCase()) !=
-            -1 &&
-          person.eyeColor.toLowerCase().indexOf(eyeSelect.toLowerCase()) != -1
+          ((petSelect != "" &&
+            person.preferences.pet.toLowerCase() == petSelect.toLowerCase()) ||
+            petSelect == "") &&
+          ((fruitSelect != "" &&
+            person.preferences.fruit.toLowerCase() ==
+              fruitSelect.toLowerCase()) ||
+            fruitSelect == "") &&
+          ((genderSelect != "" &&
+            person.gender.toLowerCase() == genderSelect.toLowerCase()) ||
+            genderSelect == "") &&
+          ((eyeSelect != "" &&
+            person.eyeColor.toLowerCase() == eyeSelect.toLowerCase()) ||
+            eyeSelect == "")
         );
       });
     },
   },
-  // methods: {
-  // },
 
   mounted() {
     // console.log("here");
@@ -368,11 +361,7 @@ export default {
       this.ages.push({ key: i, value: i });
     }
     // console.log(this.allData);
-    this.data = this.allData;
-    this.genderFilter();
-    this.petFilter();
-    this.fruitFilter();
-    this.eyeFilter();
+    this.getFilters();
   },
 };
 </script>

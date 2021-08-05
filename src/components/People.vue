@@ -9,6 +9,7 @@ export default {
   name: "People",
   props: {
     person: Object,
+    index: Number,
   },
 };
 </script>
