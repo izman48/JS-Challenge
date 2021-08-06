@@ -1,6 +1,21 @@
 import { mount } from "@vue/test-utils";
 import People from "@/components/People.vue";
+import Charts from "@/components/Charts.vue";
 
+describe("Charts.vue Unit Tests", () => {
+  test("PieChart gets rendered", () => {
+    const wrapper = mount(Charts, {
+      propsData: {
+        chartData: [
+          ["Gender", "Number of people"],
+          ["male", 5],
+          ["female", 10],
+        ],
+        type: "PieChart",
+      },
+    });
+  });
+});
 describe("People.vue Unit Tests", () => {
   test("Displays name of person", () => {
     //Arrange

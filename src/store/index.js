@@ -97,24 +97,63 @@ export default createStore({
       commit("editTable", people);
     },
     async updateMinAge({ commit }, minAge) {
-      commit("setMinAge", minAge.target.value);
+      let value = "";
+      if (typeof minAge.target == "undefined") {
+        value = minAge.value;
+      } else {
+        value = minAge.target.value;
+      }
+      commit("setMinAge", value);
       // console.log(minAge.target.value);
     },
     async updateMaxAge({ commit }, maxAge) {
-      commit("setMaxAge", maxAge).target.value;
+      let value = "";
+      if (typeof maxAge.target == "undefined") {
+        value = maxAge.value;
+      } else {
+        value = maxAge.target.value;
+      }
+      commit("setMaxAge", value);
     },
     async updatePet({ commit }, pet) {
-      // console.log(pet.target.value);
-      commit("setPet", pet.target.value);
+      let value = "";
+      if (typeof pet.target == "undefined") {
+        value = pet.value;
+      } else {
+        value = pet.target.value;
+      }
+      console.log(value);
+      commit("setPet", value);
     },
     async updateGender({ commit }, gender) {
-      commit("setGender", gender.target.value);
+      let value = "";
+      if (typeof gender.target == "undefined") {
+        value = gender.value;
+      } else {
+        value = gender.target.value;
+      }
+      console.log(value);
+      commit("setGender", value);
     },
     async updateFruit({ commit }, fruit) {
-      commit("setFruit", fruit.target.value);
+      let value = "";
+      if (typeof fruit.target == "undefined") {
+        value = fruit.value;
+      } else {
+        value = fruit.target.value;
+      }
+      console.log(value);
+      commit("setFruit", value);
     },
     async updateEyeColor({ commit }, eyeColor) {
-      commit("setEyeColor", eyeColor.target.value);
+      let value = "";
+      if (typeof eyeColor.target == "undefined") {
+        value = eyeColor.value;
+      } else {
+        value = eyeColor.target.value;
+      }
+      console.log(value);
+      commit("setEyeColor", value);
     },
     async updateGenderFilters({ commit }) {
       commit("genderFilter");

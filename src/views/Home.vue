@@ -70,24 +70,24 @@
     <button v-on:click="switchChartType">{{ buttonMessage }}</button>
     <div class="charts-wrapper">
       <div class="chart">
-        <h4>Pet Data</h4>
-        <Charts :chartData="petData()" :type="type" />
+        <!-- <h4>Pet Data</h4> -->
+        <Charts :chartData="petData()" :type="type" :name="'pet'" />
       </div>
       <div class="chart">
-        <h4>Age Data</h4>
-        <Charts :chartData="ageData()" :type="type" />
+        <!-- <h4>Age Data</h4> -->
+        <Charts :chartData="ageData()" :type="type" :name="'age'" />
       </div>
       <div class="chart">
-        <h4>Gender Data</h4>
-        <Charts :chartData="genderData()" :type="type" />
+        <!-- <h4>Gender Data</h4> -->
+        <Charts :chartData="genderData()" :type="type" :name="'gender'" />
       </div>
       <div class="chart">
-        <h4>Eye Data</h4>
-        <Charts :chartData="eyeData()" :type="type" />
+        <!-- <h4>Eye Data</h4> -->
+        <Charts :chartData="eyeData()" :type="type" :name="'eyeColor'" />
       </div>
       <div class="chart">
-        <h4>Fruit Data</h4>
-        <Charts :chartData="fruitData()" :type="type" />
+        <!-- <h4>Fruit Data</h4> -->
+        <Charts :chartData="fruitData()" :type="type" :name="'fruit'" />
       </div>
     </div>
 
@@ -154,36 +154,59 @@ export default {
       return count;
     },
     ageData() {
-      let ages = [];
-      for (let key in this.filteredList) {
-        // console.log(this.filteredList);
-        ages.push(this.filteredList[key].age);
-      }
-      ages.sort(function (a, b) {
-        return a - b;
-      });
-      // get age ranges that have more than 0 elements
+      let minAge = 1000;
       let maxAge = 0;
-      let ageCount = 0;
-      let range = 5;
+      let ages = [];
+
       let ageString = "";
       let ageRange = [["Age Range", "Number of people"]];
+      let range = 5;
+
+      for (let key in this.filteredList) {
+        // console.log(this.filteredList[key].age);
+        if (this.filteredList[key].age > maxAge) {
+          maxAge = this.filteredList[key].age;
+        }
+        if (this.filteredList[key].age < minAge) {
+          minAge = this.filteredList[key].age;
+        }
+        ages.push(this.filteredList[key].age);
+      }
+
+      console.log(minAge);
+      console.log(maxAge);
+      while (minAge % range !== 0) {
+        // console.log(minAge);
+        minAge = minAge - 1;
+      }
+      let minRange = minAge;
+      let maxRange = minRange + range;
+      let ageCount = 0;
+
+      ages.sort();
+
       for (let i = 0; i < ages.length; i++) {
-        if (ages[i] <= maxAge) {
-          ageCount++;
+        let age = ages[i];
+        // console.log(minRange);
+        if (age >= minRange && age < maxRange) {
+          // console.log("added to count");
+          ageCount = ageCount + 1;
         } else {
+          ageString = minRange.toString() + " - " + maxRange.toString();
           if (ageCount > 0) {
             ageRange.push([ageString, ageCount]);
             ageCount = 0;
           }
-
-          while (ages[i] > maxAge) {
-            maxAge += range;
-          }
-          ageString = (maxAge - range).toString() + " - " + maxAge.toString();
+          minRange = maxRange;
+          maxRange = minRange + range;
         }
       }
-      ageRange.push([ageString, ageCount]);
+      ageString = minRange.toString() + " - " + maxRange.toString();
+      if (ageCount > 0) {
+        ageRange.push([ageString, ageCount]);
+        ageCount = 0;
+      }
+      // console.log(ageRange);
       return ageRange;
     },
     genderData() {
