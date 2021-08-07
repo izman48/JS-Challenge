@@ -9,7 +9,6 @@
           v-model="inSearchBar"
           placeholder="Search..."
           autofocus
-          required
         />
         <select id="minAge" :value="minAge" @input="updateMinAge">
           <option disabled value="">Min-Age</option>
@@ -63,7 +62,7 @@
             {{ eye.value }}
           </option>
         </select>
-        <button type="submit">Go</button>
+        <button type="submit" v-on:click="goSearch">Go</button>
       </form>
     </div>
 
@@ -131,7 +130,13 @@ export default {
       "updatePetFilters",
       "updateFruitFilters",
       "updateEyeFilters",
+      "updateFilteredData",
+      "updateDataMinAge",
     ]),
+    goSearch() {
+      // console.log("clicked Button");
+      this.updateFilteredData();
+    },
     switchChartType() {
       if (this.buttonMessage == "Switch to Bar Chart") {
         this.buttonMessage = "Switch to Pie Chart";
@@ -173,12 +178,13 @@ export default {
         ages.push(this.filteredList[key].age);
       }
 
-      console.log(minAge);
-      console.log(maxAge);
+      // console.log(minAge);
+      // console.log(maxAge);
       while (minAge % range !== 0) {
         // console.log(minAge);
         minAge = minAge - 1;
       }
+      this.updateDataMinAge(minAge);
       let minRange = minAge;
       let maxRange = minRange + range;
       let ageCount = 0;
@@ -282,6 +288,7 @@ export default {
   computed: {
     ...mapGetters([
       "getData",
+      "getFilteredData",
       "getMinAge",
       "getMaxAge",
       "getPet",
@@ -328,11 +335,7 @@ export default {
       return this.getData;
     },
     filteredList() {
-      return this.getData.filter((person) => {
-        let genderSelect = "";
-        let petSelect = "";
-        let fruitSelect = "";
-        let eyeSelect = "";
+      return this.getFilteredData.filter((person) => {
         let searchString =
           person.name +
           " " +
@@ -341,38 +344,13 @@ export default {
           person.age +
           " " +
           person.gender +
-          " ";
-        if (this.gender != "all") {
-          genderSelect = this.gender;
-        }
-        if (this.pet != "all") {
-          petSelect = this.pet;
-          // console.log(person);
-        }
-        if (this.fruit != "all") {
-          fruitSelect = this.fruit;
-        }
-        if (this.eyeColor != "all") {
-          eyeSelect = this.eyeColor;
-        }
+          " " +
+          person.preferences.pet +
+          person.preferences.fruit;
+
         return (
           searchString.toLowerCase().indexOf(this.inSearchBar.toLowerCase()) !=
-            -1 &&
-          person.age >= this.minAge &&
-          person.age <= this.maxAge &&
-          ((petSelect != "" &&
-            person.preferences.pet.toLowerCase() == petSelect.toLowerCase()) ||
-            petSelect == "") &&
-          ((fruitSelect != "" &&
-            person.preferences.fruit.toLowerCase() ==
-              fruitSelect.toLowerCase()) ||
-            fruitSelect == "") &&
-          ((genderSelect != "" &&
-            person.gender.toLowerCase() == genderSelect.toLowerCase()) ||
-            genderSelect == "") &&
-          ((eyeSelect != "" &&
-            person.eyeColor.toLowerCase() == eyeSelect.toLowerCase()) ||
-            eyeSelect == "")
+          -1
         );
       });
     },

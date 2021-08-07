@@ -38,20 +38,27 @@ export default {
     ]),
     updateFilters(selection) {
       if (this.name == "gender") {
-        this.updateGender(this.genderFilters[selection[0].row + 1]);
+        this.updateGender(this.genderFilters[selection[0].row + 1].value);
       }
       if (this.name == "eyeColor") {
-        this.updateEyeColor(this.eyeColorFilters[selection[0].row + 1]);
+        this.updateEyeColor(this.eyeColorFilters[selection[0].row + 1].value);
       }
       if (this.name == "fruit") {
-        this.updateFruit(this.fruitFilters[selection[0].row + 1]);
+        this.updateFruit(this.fruitFilters[selection[0].row + 1].value);
       }
       if (this.name == "pet") {
-        this.updatePet(this.petFilters[selection[0].row + 1]);
+        this.updatePet(this.petFilters[selection[0].row + 1].value);
       }
       if (this.name == "age") {
-        console.log(selection[0].row);
-        console.log(this.ageFilters[selection[0].row + 1]);
+        let minAge = this.getDataMinAge;
+        let range = 5;
+        while (minAge % range != 0) {
+          minAge = minAge - 1;
+        }
+        minAge = minAge + range * selection[0].row;
+        let maxAge = minAge + range;
+        this.updateMinAge(minAge);
+        this.updateMaxAge(maxAge);
       }
     },
   },
@@ -78,6 +85,7 @@ export default {
   computed: {
     ...mapGetters([
       "getData",
+      "getDataMinAge",
       "getMinAge",
       "getMaxAge",
       "getPet",

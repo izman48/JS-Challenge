@@ -4,8 +4,11 @@ import json from "@/assets/people.json";
 export default createStore({
   state: {
     data: json,
+    filteredData: json,
+    search: false,
     minAge: -1,
     maxAge: 10000,
+    dataMinAge: -1,
     pet: "",
     gender: "",
     fruit: "",
@@ -22,11 +25,63 @@ export default createStore({
     editTable: (state, people) => {
       state.data = people;
     },
+    setFilteredData: (state) => {
+      let genderSelect = "";
+      let petSelect = "";
+      let fruitSelect = "";
+      let eyeSelect = "";
+      if (state.gender != "all") {
+        genderSelect = state.gender;
+      }
+      if (state.pet != "all") {
+        petSelect = state.pet;
+        // console.log(person);
+      }
+      if (state.fruit != "all") {
+        fruitSelect = state.fruit;
+      }
+      if (state.eyeColor != "all") {
+        eyeSelect = state.eyeColor;
+      }
+      // console.log(genderSelect);
+      // console.log(petSelect);
+      let filtered = [];
+      for (let i = 0; i < state.data.length; i++) {
+        let person = state.data[i];
+        if (
+          person.age >= state.minAge &&
+          person.age < state.maxAge &&
+          ((petSelect != "" &&
+            person.preferences.pet.toLowerCase() == petSelect.toLowerCase()) ||
+            petSelect == "") &&
+          ((fruitSelect != "" &&
+            person.preferences.fruit.toLowerCase() ==
+              fruitSelect.toLowerCase()) ||
+            fruitSelect == "") &&
+          ((genderSelect != "" &&
+            person.gender.toLowerCase() == genderSelect.toLowerCase()) ||
+            genderSelect == "") &&
+          ((eyeSelect != "" &&
+            person.eyeColor.toLowerCase() == eyeSelect.toLowerCase()) ||
+            eyeSelect == "")
+        ) {
+          filtered.push(person);
+        }
+      }
+      // console.log(filtered);
+      state.filteredData = filtered;
+    },
+    setSearch: (state, flag) => {
+      state.search = flag;
+    },
     setMinAge: (state, minAge) => {
       state.minAge = minAge;
     },
     setMaxAge: (state, maxAge) => {
       state.maxAge = maxAge;
+    },
+    setDataMinAge: (state, minAge) => {
+      state.dataMinAge = minAge;
     },
     setPet: (state, pet) => {
       state.pet = pet;
@@ -96,10 +151,16 @@ export default createStore({
     async updateAllDetails({ commit }, people) {
       commit("editTable", people);
     },
+    async updateFilteredData({ commit }) {
+      commit("setFilteredData");
+    },
+    async updateSearch({ commit }, flag) {
+      commit("setSearch", flag);
+    },
     async updateMinAge({ commit }, minAge) {
       let value = "";
       if (typeof minAge.target == "undefined") {
-        value = minAge.value;
+        value = minAge;
       } else {
         value = minAge.target.value;
       }
@@ -109,7 +170,7 @@ export default createStore({
     async updateMaxAge({ commit }, maxAge) {
       let value = "";
       if (typeof maxAge.target == "undefined") {
-        value = maxAge.value;
+        value = maxAge;
       } else {
         value = maxAge.target.value;
       }
@@ -118,41 +179,41 @@ export default createStore({
     async updatePet({ commit }, pet) {
       let value = "";
       if (typeof pet.target == "undefined") {
-        value = pet.value;
+        value = pet;
       } else {
         value = pet.target.value;
       }
-      console.log(value);
+      // console.log(value);
       commit("setPet", value);
     },
     async updateGender({ commit }, gender) {
       let value = "";
       if (typeof gender.target == "undefined") {
-        value = gender.value;
+        value = gender;
       } else {
         value = gender.target.value;
       }
-      console.log(value);
+      // console.log(value);
       commit("setGender", value);
     },
     async updateFruit({ commit }, fruit) {
       let value = "";
       if (typeof fruit.target == "undefined") {
-        value = fruit.value;
+        value = fruit;
       } else {
         value = fruit.target.value;
       }
-      console.log(value);
+      // console.log(value);
       commit("setFruit", value);
     },
     async updateEyeColor({ commit }, eyeColor) {
       let value = "";
       if (typeof eyeColor.target == "undefined") {
-        value = eyeColor.value;
+        value = eyeColor;
       } else {
         value = eyeColor.target.value;
       }
-      console.log(value);
+      // console.log(value);
       commit("setEyeColor", value);
     },
     async updateGenderFilters({ commit }) {
@@ -167,10 +228,16 @@ export default createStore({
     async updateEyeFilters({ commit }) {
       commit("eyeFilter");
     },
+    async updateDataMinAge({ commit }, dataMinAge) {
+      commit("setDataMinAge", dataMinAge);
+    },
   },
   modules: {},
   getters: {
     getData: (state) => state.data,
+    getFilteredData: (state) => state.filteredData,
+    getSearch: (state) => state.search,
+    getDataMinAge: (state) => state.dataMinAge,
     getMinAge: (state) => state.minAge,
     getMaxAge: (state) => state.maxAge,
     getPet: (state) => state.pet,
