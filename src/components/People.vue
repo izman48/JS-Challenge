@@ -39,9 +39,15 @@
     </span>
 
     <div class="edit">
-      <button v-show="!edit" v-on:click="editPerson(person)">edit</button>
-      <button v-show="edit" v-on:click="savePerson(person)">save</button>
-      <button v-show="edit" v-on:click="cancelPerson(person)">cancel</button>
+      <button id="editButton" v-show="!edit" v-on:click="editPerson">
+        edit
+      </button>
+      <button id="saveButton" v-show="edit" v-on:click="savePerson">
+        save
+      </button>
+      <button id="cancelButton" v-show="edit" v-on:click="cancelPerson(person)">
+        cancel
+      </button>
     </div>
   </div>
 </template>
@@ -63,15 +69,15 @@ export default {
   },
   methods: {
     ...mapActions(["updatePersonDetails", "updateFilters"]),
-    editPerson(person) {
+    editPerson() {
       //  this._originalPerson = Object.assign({}, person);
-      console.log(person);
+      // console.log(person);
       this.edit = true;
     },
 
-    cancelPerson(person) {
+    cancelPerson() {
       //  Object.assign(person, this._originalPerson);
-      console.log(person);
+      // console.log(person);
       this.edit = false;
     },
 
