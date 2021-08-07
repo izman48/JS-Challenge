@@ -1,15 +1,97 @@
 <template>
   <div class="people">
-    <h1>{{ person.name }} {{ person.age }}</h1>
+    <span v-show="!edit">
+      <h1>{{ person.name }} {{ person.age }}</h1>
+      <h4>
+        Gender - {{ capitalize(person.gender) }} | Eye Color -
+        {{ capitalize(person.eyeColor) }} | Pet -
+        {{ capitalize(person.preferences.pet) }} | Favourite Fruit -
+        {{ capitalize(person.preferences.fruit) }}
+      </h4>
+    </span>
+    <span v-show="edit">
+      <input type="text" ref="name" :value="person.name" :disabled="!edit" />
+      <input type="text" ref="age" :value="person.age" :disabled="!edit" />
+      <input
+        type="text"
+        ref="gender"
+        :value="person.gender"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        ref="eyeColor"
+        :value="person.eyeColor"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        ref="pet"
+        :value="person.preferences.pet"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        ref="fruit"
+        :value="person.preferences.fruit"
+        :disabled="!edit"
+      />
+    </span>
+
+    <div class="edit">
+      <button v-show="!edit" v-on:click="editPerson(person)">edit</button>
+      <button v-show="edit" v-on:click="savePerson(person)">save</button>
+      <button v-show="edit" v-on:click="cancelPerson(person)">cancel</button>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "People",
   props: {
     person: Object,
     index: Number,
+  },
+  data() {
+    return {
+      edit: false,
+      name: this.person.name,
+    };
+  },
+  methods: {
+    ...mapActions(["updatePersonDetails", "updateFilters"]),
+    editPerson(person) {
+      //  this._originalPerson = Object.assign({}, person);
+      console.log(person);
+      this.edit = true;
+    },
+
+    cancelPerson(person) {
+      //  Object.assign(person, this._originalPerson);
+      console.log(person);
+      this.edit = false;
+    },
+
+    savePerson(person) {
+      console.log(person);
+      console.log(this.$refs["name"].value);
+      person.name = this.$refs["name"].value;
+      person.age = this.$refs["age"].value;
+      person.gender = this.$refs["gender"].value;
+      person.eyeColor = this.$refs["eyeColor"].value;
+      person.preferences.pet = this.$refs["pet"].value;
+      person.preferences.fruit = this.$refs["fruit"].value;
+      // this.updatePersonDetails(person, this.index);
+      this.updateFilters();
+      this.edit = false;
+    },
+    capitalize(word) {
+      let newWord = word.charAt(0).toUpperCase() + word.substring(1);
+      return newWord;
+    },
   },
 };
 </script>

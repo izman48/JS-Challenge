@@ -96,6 +96,7 @@ export default createStore({
       state.eyeColor = eyeColor;
     },
     genderFilter: (state) => {
+      state.genders = [];
       let genders = new Set();
       for (let i in state.data) {
         genders.add(state.data[i].gender);
@@ -108,6 +109,7 @@ export default createStore({
       }
     },
     petFilter: (state) => {
+      state.pets = [];
       let pets = new Set();
       for (let i in state.data) {
         pets.add(state.data[i].preferences.pet);
@@ -120,6 +122,7 @@ export default createStore({
       }
     },
     fruitFilter: (state) => {
+      state.fruits = [];
       let fruits = new Set();
       for (let i in state.data) {
         fruits.add(state.data[i].preferences.fruit);
@@ -132,6 +135,7 @@ export default createStore({
       }
     },
     eyeFilter: (state) => {
+      state.eyeColors = [];
       let eyes = new Set();
       for (let i in state.data) {
         eyes.add(state.data[i].eyeColor);
@@ -230,6 +234,12 @@ export default createStore({
     },
     async updateDataMinAge({ commit }, dataMinAge) {
       commit("setDataMinAge", dataMinAge);
+    },
+    async updateFilters({ commit }) {
+      commit("genderFilter");
+      commit("petFilter");
+      commit("fruitFilter");
+      commit("eyeFilter");
     },
   },
   modules: {},

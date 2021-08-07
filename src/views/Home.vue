@@ -132,6 +132,7 @@ export default {
       "updateEyeFilters",
       "updateFilteredData",
       "updateDataMinAge",
+      "updateFilters",
     ]),
     goSearch() {
       // console.log("clicked Button");
@@ -148,10 +149,7 @@ export default {
     },
     getFilters() {
       // this.data = this.allData;
-      this.updateGenderFilters();
-      this.updatePetFilters();
-      this.updateFruitFilters();
-      this.updateEyeFilters();
+      this.updateFilters();
     },
     getOccurrence(array, value) {
       var count = 0;
