@@ -10,39 +10,19 @@
       </h4>
     </span>
     <span v-show="edit">
-      <input type="text" ref="name" :value="person.name" :disabled="!edit" />
-      <input type="text" ref="age" :value="person.age" :disabled="!edit" />
-      <input
-        type="text"
-        ref="gender"
-        :value="person.gender"
-        :disabled="!edit"
-      />
-      <input
-        type="text"
-        ref="eyeColor"
-        :value="person.eyeColor"
-        :disabled="!edit"
-      />
-      <input
-        type="text"
-        ref="pet"
-        :value="person.preferences.pet"
-        :disabled="!edit"
-      />
-      <input
-        type="text"
-        ref="fruit"
-        :value="person.preferences.fruit"
-        :disabled="!edit"
-      />
+      <input type="text" id="editName" v-model="name" :disabled="!edit" />
+      <input type="text" id="editAge" v-model="age" :disabled="!edit" />
+      <input type="text" id="editGender" v-model="gender" :disabled="!edit" />
+      <input type="text" id="editEye" v-model="eyeColor" :disabled="!edit" />
+      <input type="text" id="editPet" v-model="pet" :disabled="!edit" />
+      <input type="text" id="editFruit" v-model="fruit" :disabled="!edit" />
     </span>
 
     <div class="edit">
       <button id="editButton" v-show="!edit" v-on:click="editPerson">
         edit
       </button>
-      <button id="saveButton" v-show="edit" v-on:click="savePerson">
+      <button id="saveButton" v-show="edit" v-on:click="savePerson(person)">
         save
       </button>
       <button id="cancelButton" v-show="edit" v-on:click="cancelPerson(person)">
@@ -65,6 +45,13 @@ export default {
     return {
       edit: false,
       name: this.person.name,
+      age: this.person.age,
+      gender: this.person.gender,
+      eyeColor: this.person.eyeColor,
+      pet: this.person.preferences.pet,
+      fruit: this.person.preferences.fruit,
+      lat: this.person.location.latitude,
+      long: this.person.location.longitude,
     };
   },
   methods: {
@@ -75,22 +62,23 @@ export default {
       this.edit = true;
     },
 
-    cancelPerson() {
-      //  Object.assign(person, this._originalPerson);
-      // console.log(person);
+    cancelPerson(person) {
+      this.name = person.name;
+      this.age = person.age;
+      this.gender = person.gender;
+      this.eyeColor = person.eyeColor;
+      this.pet = person.preferences.pet;
+      this.fruit = person.preferences.fruit;
       this.edit = false;
     },
 
     savePerson(person) {
-      console.log(person);
-      console.log(this.$refs["name"].value);
-      person.name = this.$refs["name"].value;
-      person.age = this.$refs["age"].value;
-      person.gender = this.$refs["gender"].value;
-      person.eyeColor = this.$refs["eyeColor"].value;
-      person.preferences.pet = this.$refs["pet"].value;
-      person.preferences.fruit = this.$refs["fruit"].value;
-      // this.updatePersonDetails(person, this.index);
+      person.name = this.name;
+      person.age = this.age;
+      person.gender = this.gender;
+      person.eyeColor = this.eyeColor;
+      person.preferences.pet = this.pet;
+      person.preferences.fruit = this.fruit;
       this.updateFilters();
       this.edit = false;
     },
