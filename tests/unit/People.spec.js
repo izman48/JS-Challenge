@@ -2,11 +2,11 @@ import { mount } from "@vue/test-utils";
 import { createStore } from "vuex";
 import People from "@/components/People.vue";
 
-const store = createStore();
-store.updateFilters = jest.fn();
-
 describe("People.vue Unit Tests", () => {
   //Arrange
+  const store = createStore();
+  store.dispatch = jest.fn();
+
   const wrapper = mount(People, {
     propsData: {
       person: {
