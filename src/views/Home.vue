@@ -10,6 +10,8 @@
           placeholder="Search..."
           autofocus
         />
+      </form>
+      <div class="filters">
         <select id="minAge" :value="minAge" @input="updateMinAge">
           <option disabled value="">Min-Age</option>
           <option v-for="age in ages" :key="age.key" :value="age.value">
@@ -63,12 +65,17 @@
           </option>
         </select>
         <button type="submit" v-on:click="goSearch">Go</button>
-      </form>
+        <button id="reset" type="submit" v-on:click="resetFilters">
+          Reset Filters
+        </button>
+      </div>
     </div>
 
-    <button v-on:click="switchChartType">{{ buttonMessage }}</button>
-    <div class="charts-wrapper">
+    <button v-on:click="hideChart">{{ hideMessage }}</button>
+
+    <div class="charts-wrapper" v-show="hide == false">
       <div class="chart">
+        <button v-on:click="switchChartType">{{ buttonMessage }}</button>
         <!-- <h4>Pet Data</h4> -->
         <Charts :chartData="petData()" :type="type" :name="'pet'" />
       </div>
@@ -87,6 +94,10 @@
       <div class="chart">
         <!-- <h4>Fruit Data</h4> -->
         <Charts :chartData="fruitData()" :type="type" :name="'fruit'" />
+      </div>
+      <div class="chart">
+        <!-- <h4>Fruit Data</h4> -->
+        <Charts :chartData="mapData()" :type="'map'" :name="'Locations'" />
       </div>
     </div>
 
@@ -116,6 +127,8 @@ export default {
       type: "PieChart",
       inSearchBar: "",
       buttonMessage: "Switch to Bar Chart",
+      hideMessage: "Hide Charts",
+      hide: false,
     };
   },
   methods: {
@@ -134,6 +147,24 @@ export default {
       "updateDataMinAge",
       "updateFilters",
     ]),
+    hideChart() {
+      this.hide = !this.hide;
+      if (this.hide) {
+        this.hideMessage = "Show Charts";
+      } else {
+        this.hideMessage = "Hide Charts";
+      }
+      console.log(this.hide);
+    },
+    resetFilters() {
+      this.updateMinAge(-1);
+      this.updateMaxAge(100);
+      this.updateGender("");
+      this.updateFruit("");
+      this.updatePet("");
+      this.updateEyeColor("");
+      this.goSearch();
+    },
     goSearch() {
       // console.log("clicked Button");
       this.updateFilteredData();
@@ -282,6 +313,18 @@ export default {
       // console.log(genderRange);
       return eyeRange;
     },
+    mapData() {
+      let locations = [["Lat", "Long", "Name"]];
+      for (let key in this.filteredList) {
+        locations.push([
+          this.filteredList[key].location.latitude,
+          this.filteredList[key].location.longitude,
+          this.filteredList[key].name,
+        ]);
+      }
+      // console.log(locations);
+      return locations;
+    },
   },
   computed: {
     ...mapGetters([
@@ -386,10 +429,32 @@ export default {
   transition: border-left 300ms ease-in-out, padding-left 300ms ease-in-out;
 }
 
-.charts-wrapper > button {
+/* button {
   display: inline-block;
+  background-color: orange;
+  padding: 0.35em 1.2em;
+  border: 0.1em solid #ffffff;
+  margin: 0 0.3em 0.3em 0;
+  border-radius: 0.12em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+}
+.button1:hover {
+  color: #000000;
+  background-color: #ffffff;
+} */
+.charts-wrapper > button {
+  height: 5px;
 }
 
+#reset {
+  align-self: flex-end;
+}
 input {
   width: 80%;
 }

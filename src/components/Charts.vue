@@ -1,15 +1,29 @@
 <template>
   <div class="charts">
     <h4>{{ name }}</h4>
-    <GChart
-      :settings="{ packages: ['corechart', 'bar'] }"
-      :type="type"
-      :resizeDebounce="500"
-      :data="chartData"
-      :options="chartOptions"
-      :events="chartEvents"
-      ref="gChart"
-    />
+    <div class="map" v-if="type == 'map'">
+      <GChart
+        :settings="{
+          packages: ['geoChart'],
+        }"
+        type="GeoChart"
+        :data="chartData"
+        :options="mapOptions"
+        :events="mapEvents"
+        ref="gChart"
+      />
+    </div>
+    <div class="other" v-else>
+      <GChart
+        :settings="{ packages: ['corechart', 'bar'] }"
+        :type="type"
+        :resizeDebounce="500"
+        :data="chartData"
+        :options="chartOptions"
+        :events="chartEvents"
+        ref="gChart"
+      />
+    </div>
   </div>
 </template>
 
@@ -67,7 +81,16 @@ export default {
     return {
       chartOptions: {
         width: 600,
-        height: 300,
+        height: 400,
+        title: this.name,
+      },
+      mapOptions: {
+        backgroundColor: "#81d4fa",
+        displayMode: "marker",
+        keepAspectRatio: true,
+        width: 1000,
+        tooltip: { textStyle: { color: "#FF0000" }, showColorCode: true },
+        // defaultColor: "#f5f5f5",
       },
       chartEvents: {
         select: () => {
@@ -75,6 +98,17 @@ export default {
           const selection = table.getSelection();
           if (selection.length !== 0) {
             this.updateFilters(selection);
+          } else {
+            console.log("unselected");
+          }
+        },
+      },
+      mapEvents: {
+        select: () => {
+          const table = this.$refs.gChart.chartObject;
+          const selection = table.getSelection();
+          if (selection.length !== 0) {
+            console.log(this.chartData[selection[0].row + 1]);
           } else {
             console.log("unselected");
           }
@@ -117,6 +151,11 @@ export default {
 <style scoped>
 .heading {
   color: #fff;
+}
+.map {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 body {
