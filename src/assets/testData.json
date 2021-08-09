@@ -1,0 +1,152 @@
+[
+  {
+    "_id": "5d5d7ad6b0e83bc2d9d67dfb",
+    "age": 28,
+    "eyeColor": "brown",
+    "name": "Stephens Townsend",
+    "gender": "male",
+    "location": {
+      "latitude": 26.723281,
+      "longitude": 99.391104
+    },
+    "preferences": {
+      "pet": "bird",
+      "fruit": "apple"
+    }
+  },
+  {
+    "_id": "5d5d7ad625ceac160b06721f",
+    "age": 25,
+    "eyeColor": "blue",
+    "name": "Padilla Blair",
+    "gender": "male",
+    "location": {
+      "latitude": 31.288038,
+      "longitude": -56.647435
+    },
+    "preferences": {
+      "pet": "cat",
+      "fruit": "strawberry"
+    }
+  },
+  {
+    "_id": "5d5d7ad69975c19b54ba1b73",
+    "age": 33,
+    "eyeColor": "green",
+    "name": "Mercado West",
+    "gender": "male",
+    "location": {
+      "latitude": 35.865614,
+      "longitude": -165.455927
+    },
+    "preferences": {
+      "pet": "none",
+      "fruit": "banana"
+    }
+  },
+  {
+    "_id": "5d5d7ad67879dec8b9286d51",
+    "age": 27,
+    "eyeColor": "brown",
+    "name": "Aida Mccarty",
+    "gender": "female",
+    "location": {
+      "latitude": 13.525914,
+      "longitude": 144.425929
+    },
+    "preferences": {
+      "pet": "cat",
+      "fruit": "banana"
+    }
+  },
+  {
+    "_id": "5d5d7ad6b0518f619b88c330",
+    "age": 34,
+    "eyeColor": "brown",
+    "name": "Berry Fletcher",
+    "gender": "male",
+    "location": {
+      "latitude": -86.393021,
+      "longitude": -140.02685
+    },
+    "preferences": {
+      "pet": "dog",
+      "fruit": "banana"
+    }
+  },
+  {
+    "_id": "5d5d7ad65f863302c4f6527e",
+    "age": 37,
+    "eyeColor": "blue",
+    "name": "Cameron Bright",
+    "gender": "male",
+    "location": {
+      "latitude": 84.944476,
+      "longitude": -123.17861
+    },
+    "preferences": {
+      "pet": "none",
+      "fruit": "strawberry"
+    }
+  },
+  {
+    "_id": "5d5d7ad67534839ac2910e6b",
+    "age": 34,
+    "eyeColor": "green",
+    "name": "Deloris Perkins",
+    "gender": "female",
+    "location": {
+      "latitude": -9.465648,
+      "longitude": 29.8641
+    },
+    "preferences": {
+      "pet": "cat",
+      "fruit": "mango"
+    }
+  },
+  {
+    "_id": "5d5d7ad6f60ac61d13c605d8",
+    "age": 20,
+    "eyeColor": "brown",
+    "name": "Daphne Mcdowell",
+    "gender": "female",
+    "location": {
+      "latitude": -55.331803,
+      "longitude": -96.369261
+    },
+    "preferences": {
+      "pet": "none",
+      "fruit": "strawberry"
+    }
+  },
+  {
+    "_id": "5d5d7ad6b95cb751a906ca94",
+    "age": 36,
+    "eyeColor": "green",
+    "name": "Mcdaniel Grant",
+    "gender": "male",
+    "location": {
+      "latitude": 88.430993,
+      "longitude": 149.820759
+    },
+    "preferences": {
+      "pet": "none",
+      "fruit": "banana"
+    }
+  },
+  {
+    "_id": "5d5d7ad6ab5f9e898a6395c7",
+    "age": 30,
+    "eyeColor": "blue",
+    "name": "Sharon Fuller",
+    "gender": "female",
+    "location": {
+      "latitude": 26.914585,
+      "longitude": -82.524341
+    },
+    "preferences": {
+      "pet": "cat",
+      "fruit": "apple"
+    }
+  }
+]

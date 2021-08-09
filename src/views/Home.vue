@@ -63,7 +63,7 @@
             {{ eye.value }}
           </option>
         </select>
-        <button type="submit" v-on:click="goSearch">Go</button>
+        <button id="go" type="submit" v-on:click="goSearch">Go</button>
         <button id="reset" type="submit" v-on:click="resetFilters">
           Reset Filters
         </button>
