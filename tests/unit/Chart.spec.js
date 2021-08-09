@@ -1,8 +1,11 @@
 import { mount } from "@vue/test-utils";
-import People from "@/components/People.vue";
+import { createStore } from "vuex";
+import { GChart } from "vue-google-charts";
 import Charts from "@/components/Charts.vue";
 
 describe("Charts.vue Unit Tests", () => {
+  const store = createStore();
+  store.dispatch = jest.fn();
   const wrapper = mount(Charts, {
     propsData: {
       chartData: [
@@ -13,11 +16,22 @@ describe("Charts.vue Unit Tests", () => {
       type: "PieChart",
       name: "gender",
     },
+    global: {
+      plugins: [store],
+    },
   });
-  test("renders", () => {
+  test("Exists", () => {
     expect(wrapper.exists()).toBe(true);
   });
-  test("name is shown", () => {
+  test("Name is shown", () => {
     expect(wrapper.find("h4").text()).toBe("gender");
   });
+  test("Creates chart using Google Chart", () => {
+    expect(wrapper.findComponent(GChart).exists()).toBe(true);
+  });
+  // test("Selecting a filter from a chart adds it to our filters", async () => {
+  //   we need to find a way to get wrapper.find(GChart pieslice/bar)
+  //   trigger it
+  //   expect(store.dispatch).toHaveBeenCalledWith("updateGender");
+  // });
 });

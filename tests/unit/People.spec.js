@@ -29,6 +29,9 @@ describe("People.vue Unit Tests", () => {
       plugins: [store],
     },
   });
+  test("Exists", () => {
+    expect(wrapper.exists()).toBe(true);
+  });
   test("Displays name of person", () => {
     // Assert
     expect(wrapper.text()).toContain("Aida Mccarty");
@@ -94,19 +97,24 @@ describe("People.vue Unit Tests", () => {
   });
   test("Save Button makes edited data saved", async () => {
     const editButton = wrapper.find("#editButton");
-    // expect(wrapper.vm.$data.edit).toBe(false);
     editButton.trigger("click");
     await wrapper.vm.$nextTick();
-    // expect(wrapper.vm.$data.edit).toBe(true);
-    // expect(wrapper.vm.$data.name).toBe("Aida Mccarty");
     const editName = wrapper.find("#editName");
     await editName.setValue("Ania");
-    // expect(wrapper.vm.$data.name).toBe("Ania");
     const saveButton = wrapper.find("#saveButton");
     saveButton.trigger("click");
     await wrapper.vm.$nextTick();
-    // expect(wrapper.vm.$data.name).toBe("Ania");
     expect(wrapper.text()).toContain("Ania");
   });
-  // Need to test save and cancel and data input
+  test("Filters are updated to reflect new data", async () => {
+    const editButton = wrapper.find("#editButton");
+    editButton.trigger("click");
+    await wrapper.vm.$nextTick();
+    const editPet = wrapper.find("#editPet");
+    await editPet.setValue("Hamster");
+    const saveButton = wrapper.find("#saveButton");
+    saveButton.trigger("click");
+    await wrapper.vm.$nextTick();
+    expect(store.dispatch).toHaveBeenCalledWith("updateFilters");
+  });
 });

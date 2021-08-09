@@ -2,7 +2,6 @@
   <div class="home">
     <div class="search-wrapper">
       <form onsubmit="event.preventDefault();" role="search">
-        <!-- <label for="search">Serch </label> -->
         <input
           id="search"
           type="search"

@@ -98,20 +98,16 @@ export default {
           const selection = table.getSelection();
           if (selection.length !== 0) {
             this.updateFilters(selection);
-          } else {
-            console.log("unselected");
           }
         },
       },
       mapEvents: {
         select: () => {
-          const table = this.$refs.gChart.chartObject;
-          const selection = table.getSelection();
-          if (selection.length !== 0) {
-            console.log(this.chartData[selection[0].row + 1]);
-          } else {
-            console.log("unselected");
-          }
+          // const table = this.$refs.gChart.chartObject;
+          // const selection = table.getSelection();
+          // if (selection.length !== 0) {
+          //   console.log(this.chartData[selection[0].row + 1]);
+          // }
         },
       },
     };
