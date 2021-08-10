@@ -376,6 +376,7 @@ export default {
     },
     filteredList() {
       return this.getFilteredData.filter((person) => {
+        // console.log(this.getFilteredData);
         let searchString =
           person.name +
           " " +

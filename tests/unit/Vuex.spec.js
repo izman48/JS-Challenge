@@ -14,6 +14,7 @@ import Home from "@/views/Home.vue";
 //   },
 // });
 const commit = jest.fn();
+const dispatch = jest.fn();
 
 // console.log(store);
 
@@ -43,10 +44,29 @@ describe("actions", () => {
       actions: actions,
     });
   });
-  test("test updateSearch action", async () => {
-    return store
-      .dispatch("updateSearch", true)
-      .then(() => expect(store.state.search).toEqual(true));
+  test("test updateFilteredData actions", async () => {
+    await store.dispatch("updateEyeColor", "brown");
+    await store.dispatch("updateGender", "male");
+    await store.dispatch("updateFruit", "apple");
+    return store.dispatch("updateFilteredData").then(() =>
+      expect(store.state.filteredData).toEqual([
+        {
+          _id: "5d5d7ad6b0e83bc2d9d67dfb",
+          age: 28,
+          eyeColor: "brown",
+          name: "Stephens Townsend",
+          gender: "male",
+          location: {
+            latitude: 26.723281,
+            longitude: 99.391104,
+          },
+          preferences: {
+            pet: "bird",
+            fruit: "apple",
+          },
+        },
+      ])
+    );
   });
   test("test updateMinAge actions", async () => {
     return store
@@ -78,11 +98,66 @@ describe("actions", () => {
       .dispatch("updateEyeColor", "green")
       .then(() => expect(store.state.eyeColor).toEqual("green"));
   });
-  // all the updatefunctions operate on the same logic for objects so 1 is sufficient
+  // all the updatefunctions operate on the same logic for objects
+  // I just tested on 1 of the functions
   test("test updatePet with object", async () => {
     let pet = { target: { value: "iguana" } };
     return store
       .dispatch("updatePet", pet)
       .then(() => expect(store.state.pet).toEqual("iguana"));
+  });
+  test("test updateDataMinAge actions", async () => {
+    return store
+      .dispatch("updateDataMinAge", 20)
+      .then(() => expect(store.state.dataMinAge).toEqual(20));
+  });
+  test("test updateGenderFilters action", async () => {
+    return store.dispatch("updateGenderFilters").then(() =>
+      expect(store.state.genders).toEqual([
+        { key: "0", value: "all" },
+        { key: "1", value: "male" },
+        { key: "2", value: "female" },
+      ])
+    );
+  });
+
+  test("test updatePetFilters action", async () => {
+    return store.dispatch("updatePetFilters").then(() =>
+      expect(store.state.pets).toEqual([
+        { key: "0", value: "all" },
+        { key: "1", value: "bird" },
+        { key: "2", value: "cat" },
+        { key: "3", value: "none" },
+        { key: "4", value: "dog" },
+      ])
+    );
+  });
+  test("test updateFruitFilters action", async () => {
+    return store.dispatch("updateFruitFilters").then(() =>
+      expect(store.state.fruits).toEqual([
+        { key: "0", value: "all" },
+        { key: "1", value: "apple" },
+        { key: "2", value: "strawberry" },
+        { key: "3", value: "banana" },
+        { key: "4", value: "mango" },
+      ])
+    );
+  });
+  test("test updateEyeFilters action", async () => {
+    return store.dispatch("updateEyeFilters").then(() =>
+      expect(store.state.eyeColors).toEqual([
+        { key: "0", value: "all" },
+        { key: "1", value: "brown" },
+        { key: "2", value: "blue" },
+        { key: "3", value: "green" },
+      ])
+    );
+  });
+  test("test updateFilters action", async () => {
+    await actions.updateFilters({ dispatch });
+    expect(dispatch).toHaveBeenNthCalledWith(1, "updateGenderFilters");
+    expect(dispatch).toHaveBeenNthCalledWith(2, "updatePetFilters");
+    expect(dispatch).toHaveBeenNthCalledWith(3, "updateFruitFilters");
+    expect(dispatch).toHaveBeenNthCalledWith(4, "updateEyeFilters");
   });
 });

@@ -67,7 +67,7 @@ describe("People.vue Unit Tests", () => {
   test("We can enter new data for people when it is editable", async () => {
     // expect(wrapper.vm.$data.edit).toBe(true);
     // expect(wrapper.vm.$data.name).toBe("Aida Mccarty");
-    const editName = wrapper.find("#editName");
+    const editName = wrapper.find(".editName");
     await editName.setValue("Ania");
     expect(wrapper.vm.$data.name).toBe("Ania");
   });
@@ -99,7 +99,7 @@ describe("People.vue Unit Tests", () => {
     const editButton = wrapper.find("#editButton");
     editButton.trigger("click");
     await wrapper.vm.$nextTick();
-    const editName = wrapper.find("#editName");
+    const editName = wrapper.find(".editName");
     await editName.setValue("Ania");
     const saveButton = wrapper.find("#saveButton");
     saveButton.trigger("click");
@@ -110,7 +110,7 @@ describe("People.vue Unit Tests", () => {
     const editButton = wrapper.find("#editButton");
     editButton.trigger("click");
     await wrapper.vm.$nextTick();
-    const editPet = wrapper.find("#editPet");
+    const editPet = wrapper.find(".editPet");
     await editPet.setValue("Hamster");
     const saveButton = wrapper.find("#saveButton");
     saveButton.trigger("click");

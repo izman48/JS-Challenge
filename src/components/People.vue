@@ -10,12 +10,17 @@
       </h4>
     </span>
     <span v-show="edit">
-      <input type="text" id="editName" v-model="name" :disabled="!edit" />
-      <input type="text" id="editAge" v-model="age" :disabled="!edit" />
-      <input type="text" id="editGender" v-model="gender" :disabled="!edit" />
-      <input type="text" id="editEye" v-model="eyeColor" :disabled="!edit" />
-      <input type="text" id="editPet" v-model="pet" :disabled="!edit" />
-      <input type="text" id="editFruit" v-model="fruit" :disabled="!edit" />
+      <input type="text" class="editName" v-model="name" :disabled="!edit" />
+      <input type="text" class="editAge" v-model="age" :disabled="!edit" />
+      <input
+        type="text"
+        class="editGender"
+        v-model="gender"
+        :disabled="!edit"
+      />
+      <input type="text" class="editEye" v-model="eyeColor" :disabled="!edit" />
+      <input type="text" Class="editPet" v-model="pet" :disabled="!edit" />
+      <input type="text" class="editFruit" v-model="fruit" :disabled="!edit" />
     </span>
 
     <div class="edit">
