@@ -1,102 +1,162 @@
 <template>
   <div class="home">
     <div class="search-wrapper">
-      <form onsubmit="event.preventDefault();" role="search">
-        <input
-          id="search"
-          type="search"
-          v-model="inSearchBar"
-          placeholder="Search..."
-          autofocus
-        />
-      </form>
-      <div class="filters">
-        <select id="minAge" :value="minAge" @input="updateMinAge">
-          <option disabled value="">Min-Age</option>
-          <option v-for="age in ages" :key="age.key" :value="age.value">
-            {{ age.value }}
-          </option>
-        </select>
-
-        <select id="maxAge" :value="maxAge" @input="updateMaxAge">
-          <option disabled value="">Max-Age</option>
-          <option v-for="age in ages" :key="age.key" :value="age.value">
-            {{ age.value }}
-          </option>
-        </select>
-
-        <select id="gender" :value="gender" @input="updateGender">
-          <option disabled value="">Gender</option>
-          <option
-            v-for="gender in genderFilters"
-            :key="gender.key"
-            :value="gender.value"
+      <div class="row gy-2 gx-3 text-center center">
+        <div class="col-lg-12">
+          <form onsubmit="event.preventDefault();" role="search">
+            <input
+              class="form-control"
+              id="search"
+              type="search"
+              v-model="inSearchBar"
+              placeholder="Search..."
+              autofocus
+            />
+          </form>
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-control"
+            id="minAge"
+            :value="minAge"
+            @input="updateMinAge"
           >
-            {{ gender.value }}
-          </option>
-        </select>
-
-        <select id="pet" :value="pet" @input="updatePet">
-          <option disabled value="">Pet</option>
-          <option v-for="pet in petFilters" :key="pet.key" :value="pet.value">
-            {{ pet.value }}
-          </option>
-        </select>
-        <select id="fruit" :value="fruit" @input="updateFruit">
-          <option disabled value="">Fruit</option>
-          <option
-            v-for="fruit in fruitFilters"
-            :key="fruit.key"
-            :value="fruit.value"
+            <option disabled value="">Min-Age</option>
+            <option v-for="age in ages" :key="age.key" :value="age.value">
+              {{ age.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-control"
+            id="maxAge"
+            :value="maxAge"
+            @input="updateMaxAge"
           >
-            {{ fruit.value }}
-          </option>
-        </select>
-
-        <select id="eyeColor" :value="eyeColor" @input="updateEyeColor">
-          <option disabled value="">Eye-Color</option>
-          <option
-            v-for="eye in eyeColorFilters"
-            :key="eye.key"
-            :value="eye.value"
+            <option disabled value="">Max-Age</option>
+            <option v-for="age in ages" :key="age.key" :value="age.value">
+              {{ age.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-control"
+            id="gender"
+            :value="gender"
+            @input="updateGender"
           >
-            {{ eye.value }}
-          </option>
-        </select>
-        <button id="go" type="submit" v-on:click="goSearch">Go</button>
-        <button id="reset" type="submit" v-on:click="resetFilters">
-          Reset Filters
-        </button>
+            <option disabled value="">Gender</option>
+            <option
+              v-for="gender in genderFilters"
+              :key="gender.key"
+              :value="gender.value"
+            >
+              {{ gender.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select class="form-control" id="pet" :value="pet" @input="updatePet">
+            <option disabled value="">Pet</option>
+            <option v-for="pet in petFilters" :key="pet.key" :value="pet.value">
+              {{ pet.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-control"
+            id="fruit"
+            :value="fruit"
+            @input="updateFruit"
+          >
+            <option disabled value="">Fruit</option>
+            <option
+              v-for="fruit in fruitFilters"
+              :key="fruit.key"
+              :value="fruit.value"
+            >
+              {{ fruit.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <select
+            class="form-control"
+            id="eyeColor"
+            :value="eyeColor"
+            @input="updateEyeColor"
+          >
+            <option disabled value="">Eye-Color</option>
+            <option
+              v-for="eye in eyeColorFilters"
+              :key="eye.key"
+              :value="eye.value"
+            >
+              {{ eye.value }}
+            </option>
+          </select>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn btn-secondary"
+            id="go"
+            type="submit"
+            v-on:click="goSearch"
+          >
+            Go
+          </button>
+        </div>
+        <div class="col-auto">
+          <button
+            class="btn btn-secondary"
+            id="reset"
+            type="submit"
+            v-on:click="resetFilters"
+          >
+            Reset Filters
+          </button>
+        </div>
       </div>
     </div>
-
-    <button v-on:click="hideChart">{{ hideMessage }}</button>
-
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button class="btn btn-secondary" v-on:click="hideChart">
+        {{ hideMessage }}
+      </button>
+    </div>
     <div class="charts-wrapper" v-show="hide == false">
-      <div class="chart">
-        <button v-on:click="switchChartType">{{ buttonMessage }}</button>
-        <!-- <h4>Pet Data</h4> -->
-        <Charts :chartData="petData()" :type="type" :name="'pet'" />
-      </div>
-      <div class="chart">
-        <!-- <h4>Age Data</h4> -->
-        <Charts :chartData="ageData()" :type="type" :name="'age'" />
-      </div>
-      <div class="chart">
-        <!-- <h4>Gender Data</h4> -->
-        <Charts :chartData="genderData()" :type="type" :name="'gender'" />
-      </div>
-      <div class="chart">
-        <!-- <h4>Eye Data</h4> -->
-        <Charts :chartData="eyeData()" :type="type" :name="'eyeColor'" />
-      </div>
-      <div class="chart">
-        <!-- <h4>Fruit Data</h4> -->
-        <Charts :chartData="fruitData()" :type="type" :name="'fruit'" />
-      </div>
-      <div class="chart">
-        <!-- <h4>Fruit Data</h4> -->
-        <Charts :chartData="mapData()" :type="'map'" :name="'Locations'" />
+      <div class="row gy-2 gx-3">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button class="btn btn-secondary" v-on:click="switchChartType">
+            {{ buttonMessage }}
+          </button>
+        </div>
+        <div class="col-auto text-center">
+          <!-- <h4>Pet Data</h4> -->
+          <Charts :chartData="petData()" :type="type" :name="'pet'" />
+        </div>
+        <div class="col-auto text-center">
+          <!-- <h4>Age Data</h4> -->
+          <Charts :chartData="ageData()" :type="type" :name="'age'" />
+        </div>
+        <div class="col-auto text-center">
+          <!-- <h4>Gender Data</h4> -->
+          <Charts :chartData="genderData()" :type="type" :name="'gender'" />
+        </div>
+        <div class="col-auto text-center">
+          <!-- <h4>Eye Data</h4> -->
+          <Charts :chartData="eyeData()" :type="type" :name="'eyeColor'" />
+        </div>
+        <div class="col-auto text-center">
+          <!-- <h4>Fruit Data</h4> -->
+          <Charts :chartData="fruitData()" :type="type" :name="'fruit'" />
+        </div>
+        <div class="col-auto center text-center">
+          <!-- <h4>Fruit Data</h4> -->
+          <Charts :chartData="mapData()" :type="'map'" :name="'Locations'" />
+        </div>
       </div>
     </div>
 
@@ -326,20 +386,25 @@ export default {
     },
   },
   computed: {
-    ...mapGetters([
-      "getData",
-      "getFilteredData",
-      "getMinAge",
-      "getMaxAge",
-      "getPet",
-      "getFruit",
-      "getGender",
-      "getEyeColor",
-      "getGenders",
-      "getPets",
-      "getFruits",
-      "getEyeColors",
-    ]),
+    ...mapGetters(
+      // {
+      //   minAge: "getMinAge",
+      // },
+      [
+        "getData",
+        "getFilteredData",
+        "getMinAge",
+        "getMaxAge",
+        "getPet",
+        "getFruit",
+        "getGender",
+        "getEyeColor",
+        "getGenders",
+        "getPets",
+        "getFruits",
+        "getEyeColors",
+      ]
+    ),
     minAge() {
       return this.getMinAge;
     },
@@ -457,5 +522,8 @@ export default {
 }
 input {
   width: 80%;
+}
+.center {
+  margin: auto;
 }
 </style>

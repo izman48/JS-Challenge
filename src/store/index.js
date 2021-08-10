@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import json from "@/assets/testData.json";
+import json from "@/assets/people.json";
 
 const state = {
   data: json,

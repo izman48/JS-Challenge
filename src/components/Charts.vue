@@ -80,7 +80,7 @@ export default {
   data() {
     return {
       chartOptions: {
-        width: 600,
+        width: window.innerWidth * 0.3,
         height: 400,
         title: this.name,
       },
@@ -88,7 +88,7 @@ export default {
         backgroundColor: "#81d4fa",
         displayMode: "marker",
         keepAspectRatio: true,
-        width: 1000,
+        width: (window.innerWidth * 9) / 10,
         tooltip: { textStyle: { color: "#FF0000" }, showColorCode: true },
         // defaultColor: "#f5f5f5",
       },

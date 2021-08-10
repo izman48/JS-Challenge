@@ -9,30 +9,76 @@
         {{ capitalize(person.preferences.fruit) }}
       </h4>
     </span>
-    <span v-show="edit">
-      <input type="text" class="editName" v-model="name" :disabled="!edit" />
-      <input type="text" class="editAge" v-model="age" :disabled="!edit" />
+    <span class="input-group-text" v-show="edit">
       <input
         type="text"
-        class="editGender"
+        class="editName form-control"
+        v-model="name"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        class="editAge form-control"
+        v-model="age"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        class="editGender form-control"
         v-model="gender"
         :disabled="!edit"
       />
-      <input type="text" class="editEye" v-model="eyeColor" :disabled="!edit" />
-      <input type="text" Class="editPet" v-model="pet" :disabled="!edit" />
-      <input type="text" class="editFruit" v-model="fruit" :disabled="!edit" />
+      <input
+        type="text"
+        class="editEye form-control"
+        v-model="eyeColor"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        Class="editPet form-control"
+        v-model="pet"
+        :disabled="!edit"
+      />
+      <input
+        type="text"
+        class="editFruit form-control"
+        v-model="fruit"
+        :disabled="!edit"
+      />
     </span>
 
-    <div class="edit">
-      <button id="editButton" v-show="!edit" v-on:click="editPerson">
+    <div class="edit d-grid gap-2 d-md-flex justify-content-md-end">
+      <button
+        class="btn btn-secondary"
+        id="editButton"
+        v-show="!edit"
+        v-on:click="editPerson"
+      >
         edit
       </button>
-      <button id="saveButton" v-show="edit" v-on:click="savePerson(person)">
-        save
-      </button>
-      <button id="cancelButton" v-show="edit" v-on:click="cancelPerson(person)">
-        cancel
-      </button>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <!-- <div class="col-auto center"> -->
+        <button
+          class="btn btn-secondary"
+          id="saveButton"
+          v-show="edit"
+          v-on:click="savePerson(person)"
+        >
+          save
+        </button>
+        <!-- </div> -->
+        <!-- <div class="col-auto center"> -->
+        <button
+          class="btn btn-secondary"
+          id="cancelButton"
+          v-show="edit"
+          v-on:click="cancelPerson(person)"
+        >
+          cancel
+        </button>
+        <!-- </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -124,5 +170,9 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #0099ff;
+}
+
+.center {
+  margin: 0px auto;
 }
 </style>

@@ -1,22 +1,9 @@
 // test all the actions
-import { mount } from "@vue/test-utils";
-import Vue from "vue";
 import Vuex from "vuex";
 import { actions, mutations } from "@/store/index.js";
-// import { createStore } from "vuex";
-import json from "@/assets/testData.json";
-import Home from "@/views/Home.vue";
+import json from "@/assets/people.json";
 
-// Vue.use(Vuex);
-// const wrapper = mount(Home, {
-//   global: {
-//     plugins: [store],
-//   },
-// });
-const commit = jest.fn();
 const dispatch = jest.fn();
-
-// console.log(store);
 
 describe("actions", () => {
   let store;
@@ -44,6 +31,7 @@ describe("actions", () => {
       actions: actions,
     });
   });
+
   test("test updateFilteredData actions", async () => {
     await store.dispatch("updateEyeColor", "brown");
     await store.dispatch("updateGender", "male");
@@ -98,7 +86,7 @@ describe("actions", () => {
       .dispatch("updateEyeColor", "green")
       .then(() => expect(store.state.eyeColor).toEqual("green"));
   });
-  // all the updatefunctions operate on the same logic for objects
+  // All the updatefunctions operate on the same logic for objects
   // I just tested on 1 of the functions
   test("test updatePet with object", async () => {
     let pet = { target: { value: "iguana" } };
