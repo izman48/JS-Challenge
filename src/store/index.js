@@ -18,12 +18,6 @@ const state = {
 };
 
 export const mutations = {
-  // editPerson: (state, person, index) => {
-  //   state.data[index] = person;
-  // },
-  // editTable: (state, people) => {
-  //   state.data = people;
-  // },
   setFilteredData: (state) => {
     let genderSelect = "";
     let petSelect = "";
@@ -34,7 +28,6 @@ export const mutations = {
     }
     if (state.pet != "all") {
       petSelect = state.pet;
-      // console.log(person);
     }
     if (state.fruit != "all") {
       fruitSelect = state.fruit;
@@ -42,8 +35,6 @@ export const mutations = {
     if (state.eyeColor != "all") {
       eyeSelect = state.eyeColor;
     }
-    // console.log(genderSelect);
-    // console.log(petSelect);
     let filtered = [];
     for (let i = 0; i < state.data.length; i++) {
       let person = state.data[i];
@@ -67,7 +58,6 @@ export const mutations = {
         filtered.push(person);
       }
     }
-    // console.log(filtered);
     state.filteredData = filtered;
   },
   setMinAge: (state, minAge) => {
@@ -97,7 +87,6 @@ export const mutations = {
     for (let i in state.data) {
       genders.add(state.data[i].gender);
     }
-    // console.log(pets.size);
     let gendersArray = Array.from(genders);
     gendersArray.unshift("all");
     for (let i in gendersArray) {
@@ -110,7 +99,6 @@ export const mutations = {
     for (let i in state.data) {
       pets.add(state.data[i].preferences.pet);
     }
-    // console.log(pets.size);
     let petsArray = Array.from(pets);
     petsArray.unshift("all");
     for (let i in petsArray) {
@@ -123,7 +111,6 @@ export const mutations = {
     for (let i in state.data) {
       fruits.add(state.data[i].preferences.fruit);
     }
-    // console.log(pets.size);
     let fruitsArray = Array.from(fruits);
     fruitsArray.unshift("all");
     for (let i in fruitsArray) {
@@ -136,7 +123,6 @@ export const mutations = {
     for (let i in state.data) {
       eyes.add(state.data[i].eyeColor);
     }
-    // console.log(pets.size);
     let eyeArray = Array.from(eyes);
     eyeArray.unshift("all");
     for (let i in eyeArray) {
@@ -146,12 +132,6 @@ export const mutations = {
 };
 
 export const actions = {
-  // async updatePersonDetails({ commit }, person, index) {
-  //   commit("editPerson", person, index);
-  // },
-  // async updateAllDetails({ commit }, people) {
-  //   commit("editTable", people);
-  // },
   async updateFilteredData({ commit }) {
     commit("setFilteredData");
   },
@@ -163,7 +143,6 @@ export const actions = {
       value = minAge.target.value;
     }
     commit("setMinAge", value);
-    // console.log(minAge.target.value);
   },
   async updateMaxAge({ commit }, maxAge) {
     let value = "";
@@ -181,7 +160,6 @@ export const actions = {
     } else {
       value = pet.target.value;
     }
-    // console.log(value);
     commit("setPet", value);
   },
   async updateGender({ commit }, gender) {
@@ -191,7 +169,6 @@ export const actions = {
     } else {
       value = gender.target.value;
     }
-    // console.log(value);
     commit("setGender", value);
   },
   async updateFruit({ commit }, fruit) {
@@ -201,7 +178,6 @@ export const actions = {
     } else {
       value = fruit.target.value;
     }
-    // console.log(value);
     commit("setFruit", value);
   },
   async updateEyeColor({ commit }, eyeColor) {
@@ -211,7 +187,6 @@ export const actions = {
     } else {
       value = eyeColor.target.value;
     }
-    // console.log(value);
     commit("setEyeColor", value);
   },
   async updateGenderFilters({ commit }) {
@@ -230,7 +205,6 @@ export const actions = {
     commit("setDataMinAge", dataMinAge);
   },
   async updateFilters({ dispatch }) {
-    // this.updateGenderFilters;
     dispatch("updateGenderFilters");
     dispatch("updatePetFilters");
     dispatch("updateFruitFilters");

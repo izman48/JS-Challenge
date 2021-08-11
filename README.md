@@ -1,34 +1,37 @@
 # suade-js-challenge
 
-## Project setup
+## Project installation
+
 ```
+
 npm install
+
 ```
 
-### Compiles and hot-reloads for development
+We need to make a small change to the vue-google-charts package to make it render for Vue3. Change has been suggested here https://github.com/devstark-com/vue-google-charts/pull/94
+
+Code to be changed can be found at:
+
 ```
+https://github.com/devstark-com/vue-google-charts/pull/94/files
+```
+
+Detailed steps can be found in "EditGoogleCharts.md"
+
+### Running the project
+
+In the root directory, run:
+
+```
+
 npm run serve
+
 ```
 
-### Compiles and minifies for production
-```
-npm run build
+### Run unit tests
+
 ```
 
-### Run your unit tests
-```
 npm run test:unit
-```
 
-### Run your end-to-end tests
 ```
-npm run test:e2e
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

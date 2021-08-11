@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 import People from "@/components/People.vue";
 
 describe("People.vue Unit Tests", () => {
-  //Arrange
+  // Create mock store
   const store = createStore();
   store.dispatch = jest.fn();
 
@@ -33,49 +33,37 @@ describe("People.vue Unit Tests", () => {
     expect(wrapper.exists()).toBe(true);
   });
   test("Displays name of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("Aida Mccarty");
   });
   test("Displays age of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("27");
   });
   test("Displays eyeColor of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("Brown");
   });
   test("Displays gender of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("Female");
   });
   test("Displays pet of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("Cat");
   });
   test("Displays favourite fruit of person", () => {
-    // Assert
     expect(wrapper.text()).toContain("Banana");
   });
   test("Edit button makes data editable", async () => {
-    // Assert
     const editButton = wrapper.find("#editButton");
-    // expect(wrapper.vm.$data.edit).toBe(false);
     editButton.trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.edit).toBe(true);
   });
   test("We can enter new data for people when it is editable", async () => {
-    // expect(wrapper.vm.$data.edit).toBe(true);
-    // expect(wrapper.vm.$data.name).toBe("Aida Mccarty");
     const editName = wrapper.find(".editName");
     await editName.setValue("Ania");
     expect(wrapper.vm.$data.name).toBe("Ania");
   });
 
   test("Cancel button makes data uneditable", async () => {
-    // Assert
     const cancelButton = wrapper.find("#cancelButton");
-    // expect(wrapper.vm.$data.edit).toBe(true);
     cancelButton.trigger("click");
     await wrapper.vm.$nextTick();
     expect(wrapper.vm.$data.edit).toBe(false);
@@ -84,12 +72,9 @@ describe("People.vue Unit Tests", () => {
     expect(wrapper.vm.$data.name).toBe("Aida Mccarty");
   });
   test("Save button makes data uneditable", async () => {
-    // Assert
     const editButton = wrapper.find("#editButton");
-    // expect(wrapper.vm.$data.edit).toBe(false);
     editButton.trigger("click");
     await wrapper.vm.$nextTick();
-    // expect(wrapper.vm.$data.edit).toBe(true);
     const saveButton = wrapper.find("#saveButton");
     saveButton.trigger("click");
     await wrapper.vm.$nextTick();

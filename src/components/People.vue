@@ -58,7 +58,6 @@
         edit
       </button>
       <div class="btn-group justify-content-md-end">
-        <!-- <div class="col-auto center"> -->
         <button
           class="btn btn-secondary"
           id="saveButton"
@@ -67,8 +66,6 @@
         >
           save
         </button>
-        <!-- </div> -->
-        <!-- <div class="col-auto center"> -->
         <button
           class="btn btn-secondary"
           id="cancelButton"
@@ -77,7 +74,6 @@
         >
           cancel
         </button>
-        <!-- </div> -->
       </div>
     </div>
   </div>
@@ -108,8 +104,6 @@ export default {
   methods: {
     ...mapActions(["updatePersonDetails", "updateFilters"]),
     editPerson() {
-      //  this._originalPerson = Object.assign({}, person);
-      // console.log(person);
       this.edit = true;
     },
 
@@ -156,20 +150,6 @@ export default {
 .people:hover {
   padding-left: 0.5rem;
   border-left: 0.5rem solid #00ff99;
-}
-
-.heading {
-  color: #fff;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #0099ff;
 }
 
 .center {

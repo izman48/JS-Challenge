@@ -9,17 +9,25 @@
         type="GeoChart"
         :data="chartData"
         :options="mapOptions"
-        :events="mapEvents"
         ref="gChart"
       />
     </div>
-    <div class="other" v-else>
+    <div class="other" v-if="type == 'PieChart'">
       <GChart
         :settings="{ packages: ['corechart', 'bar'] }"
         :type="type"
-        :resizeDebounce="500"
         :data="chartData"
-        :options="chartOptions"
+        :options="pieChartOptions"
+        :events="chartEvents"
+        ref="gChart"
+      />
+    </div>
+    <div class="other" v-if="type == 'BarChart'">
+      <GChart
+        :settings="{ packages: ['corechart', 'bar'] }"
+        :type="type"
+        :data="chartData"
+        :options="barChartOptions"
         :events="chartEvents"
         ref="gChart"
       />
@@ -30,7 +38,7 @@
 <script>
 import { GChart } from "vue-google-charts";
 import { mapGetters, mapActions } from "vuex";
-// import { Bar, Pie } from "vue3-chart-v2";
+
 export default {
   name: "Charts",
   components: {
@@ -79,9 +87,16 @@ export default {
   mounted() {},
   data() {
     return {
-      chartOptions: {
+      pieChartOptions: {
         width: window.innerWidth * 0.45,
         height: 400,
+      },
+      barChartOptions: {
+        width: window.innerWidth * 0.45,
+        height: 400,
+        hAxis: {
+          minValue: 0,
+        },
       },
       mapOptions: {
         backgroundColor: "#81d4fa",
@@ -89,7 +104,6 @@ export default {
         keepAspectRatio: true,
         width: (window.innerWidth * 9) / 10,
         tooltip: { textStyle: { color: "#FF0000" }, showColorCode: true },
-        // defaultColor: "#f5f5f5",
       },
       chartEvents: {
         select: () => {
@@ -98,15 +112,6 @@ export default {
           if (selection.length !== 0) {
             this.updateFilters(selection);
           }
-        },
-      },
-      mapEvents: {
-        select: () => {
-          // const table = this.$refs.gChart.chartObject;
-          // const selection = table.getSelection();
-          // if (selection.length !== 0) {
-          //   console.log(this.chartData[selection[0].row + 1]);
-          // }
         },
       },
     };
@@ -133,7 +138,6 @@ export default {
       return this.getPets;
     },
     fruitFilters() {
-      // console.log(this.getFruits);
       return this.getFruits;
     },
     eyeColorFilters() {
@@ -142,24 +146,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.heading {
-  color: #fff;
-}
-.map {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: #0099ff;
-}
-</style>

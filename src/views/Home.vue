@@ -1,5 +1,15 @@
 <template>
   <div class="home">
+    <!-- Navbar/Header -->
+    <div class="navbar navbar-light bg-light">
+      <nav>
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">Suade JS Challenge</a>
+        </div>
+      </nav>
+    </div>
+    <!-- Search and forms -->
+
     <div class="search-wrapper">
       <div class="row gy-2 gx-3 text-center center">
         <div class="col-lg-12">
@@ -119,11 +129,9 @@
         </div>
       </div>
     </div>
-    <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button class="btn btn-secondary" v-on:click="hideChart">
-        {{ hideMessage }}
-      </button>
-    </div> -->
+
+    <!-- Charts -->
+
     <div class="charts-wrapper">
       <div class="btn-group justify-content-md-end">
         <button class="btn btn-secondary" v-on:click="switchChartType">
@@ -135,31 +143,27 @@
       </div>
       <div class="row gy-2 gx-3">
         <div class="col-auto text-center center" v-show="hide == false">
-          <!-- <h4>Pet Data</h4> -->
           <Charts :chartData="petData()" :type="type" :name="'Pet'" />
         </div>
         <div class="col-auto text-center center" v-show="hide == false">
-          <!-- <h4>Age Data</h4> -->
           <Charts :chartData="ageData()" :type="type" :name="'Age'" />
         </div>
         <div class="col-auto text-center center" v-show="hide == false">
-          <!-- <h4>Gender Data</h4> -->
           <Charts :chartData="genderData()" :type="type" :name="'Gender'" />
         </div>
         <div class="col-auto text-center center" v-show="hide == false">
-          <!-- <h4>Eye Data</h4> -->
           <Charts :chartData="eyeData()" :type="type" :name="'Eye Color'" />
         </div>
         <div class="col-auto text-cente center" v-show="hide == false">
-          <!-- <h4>Fruit Data</h4> -->
           <Charts :chartData="fruitData()" :type="type" :name="'Fruit'" />
         </div>
         <div class="col-auto center text-center" v-show="hide == false">
-          <!-- <h4>Fruit Data</h4> -->
           <Charts :chartData="mapData()" :type="'map'" :name="'Locations'" />
         </div>
       </div>
     </div>
+
+    <!-- All the people -->
 
     <div class="people-container">
       <div class="people" v-for="(people, i) in filteredList" :key="people._id">
@@ -167,10 +171,14 @@
       </div>
     </div>
   </div>
+
+  <div class="container text-center footer">
+    {{ new Date().getFullYear() }} —
+    <strong>Copyright &copy; Iesa Wazeer </strong>
+  </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import People from "@/components/People.vue";
 import Charts from "@/components/Charts.vue";
 import { mapGetters, mapActions } from "vuex";
@@ -205,8 +213,12 @@ export default {
       "updateEyeFilters",
       "updateFilteredData",
       "updateDataMinAge",
-      "updateFilters",
     ]),
+    ...mapActions({
+      getFilters: "updateFilters",
+      goSearch: "updateFilteredData",
+    }),
+    // For hide chart button
     hideChart() {
       this.hide = !this.hide;
       if (this.hide) {
@@ -214,8 +226,8 @@ export default {
       } else {
         this.hideMessage = "Hide Charts";
       }
-      console.log(this.hide);
     },
+    // For reset Filter button
     resetFilters() {
       this.updateMinAge(-1);
       this.updateMaxAge(100);
@@ -225,10 +237,7 @@ export default {
       this.updateEyeColor("");
       this.goSearch();
     },
-    goSearch() {
-      // console.log("clicked Button");
-      this.updateFilteredData();
-    },
+    // For switch chart button
     switchChartType() {
       if (this.buttonMessage == "Switch to Bar Chart") {
         this.buttonMessage = "Switch to Pie Chart";
@@ -238,15 +247,13 @@ export default {
         this.buttonMessage = "Switch to Bar Chart";
       }
     },
-    getFilters() {
-      // this.data = this.allData;
-      this.updateFilters();
-    },
+    // Count how many times an element occurs in an array
     getOccurrence(array, value) {
       var count = 0;
       array.forEach((v) => v === value && count++);
       return count;
     },
+    // Calculate the number of people per age group for our charts
     ageData() {
       let minAge = 1000;
       let maxAge = 0;
@@ -257,7 +264,6 @@ export default {
       let range = 5;
 
       for (let key in this.filteredList) {
-        // console.log(this.filteredList[key].age);
         if (this.filteredList[key].age > maxAge) {
           maxAge = this.filteredList[key].age;
         }
@@ -266,11 +272,7 @@ export default {
         }
         ages.push(this.filteredList[key].age);
       }
-
-      // console.log(minAge);
-      // console.log(maxAge);
       while (minAge % range !== 0) {
-        // console.log(minAge);
         minAge = minAge - 1;
       }
       this.updateDataMinAge(minAge);
@@ -282,9 +284,7 @@ export default {
 
       for (let i = 0; i < ages.length; i++) {
         let age = ages[i];
-        // console.log(minRange);
         if (age >= minRange && age < maxRange) {
-          // console.log("added to count");
           ageCount = ageCount + 1;
         } else {
           ageString = minRange.toString() + " - " + maxRange.toString();
@@ -301,9 +301,9 @@ export default {
         ageRange.push([ageString, ageCount]);
         ageCount = 0;
       }
-      // console.log(ageRange);
       return ageRange;
     },
+    // Calculate the number of people per gender for our charts
     genderData() {
       let peopleGenders = [];
       let genderSet = new Set();
@@ -312,16 +312,14 @@ export default {
         peopleGenders.push(this.filteredList[key].gender);
       }
       let genders = Array.from(genderSet);
-      // get age ranges that have more than 0 elements
       let genderRange = [["Gender", "Number of people"]];
       for (let i = 0; i < genders.length; i++) {
         let count = this.getOccurrence(peopleGenders, genders[i]);
         genderRange.push([genders[i], count]);
       }
-      // console.log(genderRange);
       return genderRange;
     },
-
+    // Calculate the number of people per favourite pet for our charts
     petData() {
       let peoplePets = [];
       let petSet = new Set();
@@ -336,9 +334,9 @@ export default {
         let count = this.getOccurrence(peoplePets, pets[i]);
         petRange.push([pets[i], count]);
       }
-      // console.log(petRange);
       return petRange;
     },
+    // Calculate the number of people per favourite fruit for our charts
     fruitData() {
       let peopleFruits = [];
       let fruitSet = new Set();
@@ -353,9 +351,9 @@ export default {
         let count = this.getOccurrence(peopleFruits, fruits[i]);
         fruitRange.push([fruits[i], count]);
       }
-      // console.log(genderRange);
       return fruitRange;
     },
+    // Calculate the number of people per Eye Color for our charts
     eyeData() {
       let peopleEyes = [];
       let eyeSet = new Set();
@@ -370,9 +368,9 @@ export default {
         let count = this.getOccurrence(peopleEyes, eyes[i]);
         eyeRange.push([eyes[i], count]);
       }
-      // console.log(genderRange);
       return eyeRange;
     },
+    // Create an array of where each person lives for our charts
     mapData() {
       let locations = [["Lat", "Long", "Name"]];
       for (let key in this.filteredList) {
@@ -382,67 +380,29 @@ export default {
           this.filteredList[key].name,
         ]);
       }
-      // console.log(locations);
       return locations;
     },
   },
   computed: {
-    ...mapGetters(
-      // {
-      //   minAge: "getMinAge",
-      // },
-      [
-        "getData",
-        "getFilteredData",
-        "getMinAge",
-        "getMaxAge",
-        "getPet",
-        "getFruit",
-        "getGender",
-        "getEyeColor",
-        "getGenders",
-        "getPets",
-        "getFruits",
-        "getEyeColors",
-      ]
-    ),
-    minAge() {
-      return this.getMinAge;
-    },
-    maxAge() {
-      return this.getMaxAge;
-    },
-    pet() {
-      return this.getPet;
-    },
-    fruit() {
-      return this.getFruit;
-    },
-    gender() {
-      return this.getGender;
-    },
-    eyeColor() {
-      return this.getEyeColor;
-    },
-    genderFilters() {
-      return this.getGenders;
-    },
-    petFilters() {
-      return this.getPets;
-    },
-    fruitFilters() {
-      // console.log(this.getFruits);
-      return this.getFruits;
-    },
-    eyeColorFilters() {
-      return this.getEyeColors;
-    },
+    ...mapGetters({
+      minAge: "getMinAge",
+      maxAge: "getMaxAge",
+      pet: "getPet",
+      fruit: "getFruit",
+      gender: "getGender",
+      eyeColor: "getEyeColor",
+      genderFilters: "getGenders",
+      petFilters: "getPets",
+      fruitFilters: "getFruits",
+      eyeColorFilters: "getEyeColors",
+      allData: "getData",
+    }),
+    ...mapGetters(["getFilteredData"]),
     allData() {
       return this.getData;
     },
     filteredList() {
       return this.getFilteredData.filter((person) => {
-        // console.log(this.getFilteredData);
         let searchString =
           person.name +
           " " +
@@ -464,23 +424,18 @@ export default {
   },
 
   mounted() {
-    // console.log("here");
     for (var i = 0; i < 100; i++) {
       this.ages.push({ key: i, value: i });
     }
-    // console.log(this.allData);
     this.getFilters();
   },
 };
 </script>
 
 <style scoped>
-.header {
-  background: #0099ff;
-}
 .search-wrapper {
   display: flex;
-  padding: 10px;
+  padding: 4em;
   background: #0099ff;
   align-items: center;
 }
@@ -494,40 +449,19 @@ export default {
     0 5px 15px 0 rgba(0, 0, 0, 0.08);
   background-color: #ffffff;
   border-radius: 0.5rem;
-  /* border-left: 0 solid #00ff99; */
   transition: border-left 300ms ease-in-out, padding-left 300ms ease-in-out;
 }
 
-/* button {
-  display: inline-block;
-  background-color: orange;
-  padding: 0.35em 1.2em;
-  border: 0.1em solid #ffffff;
-  margin: 0 0.3em 0.3em 0;
-  border-radius: 0.12em;
-  box-sizing: border-box;
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-weight: 300;
-  color: #ffffff;
-  text-align: center;
-  transition: all 0.2s;
+.center {
+  margin: 0 auto;
 }
-.button1:hover {
-  color: #000000;
-  background-color: #ffffff;
-} */
-.charts-wrapper > button {
-  height: 5px;
+.header {
+  height: 7em;
+  padding-top: 3em;
 }
 
-#reset {
-  align-self: flex-end;
-}
-input {
-  width: 80%;
-}
-.center {
-  margin: auto;
+.footer {
+  height: 7em;
+  padding: 3em;
 }
 </style>

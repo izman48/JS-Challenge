@@ -1,4 +1,3 @@
-// test all the actions
 import Vuex from "vuex";
 import { actions, mutations } from "@/store/index.js";
 import json from "@/assets/testData.json";
