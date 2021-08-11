@@ -1,6 +1,7 @@
 <template>
   <div class="home">
     <!-- Navbar/Header -->
+
     <div class="navbar navbar-light bg-light">
       <nav>
         <div class="container-fluid">
