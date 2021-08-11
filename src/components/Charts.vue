@@ -51,19 +51,19 @@ export default {
       "updateEyeColor",
     ]),
     updateFilters(selection) {
-      if (this.name == "gender") {
+      if (this.name == "Gender") {
         this.updateGender(this.genderFilters[selection[0].row + 1].value);
       }
-      if (this.name == "eyeColor") {
+      if (this.name == "Eye Color") {
         this.updateEyeColor(this.eyeColorFilters[selection[0].row + 1].value);
       }
-      if (this.name == "fruit") {
+      if (this.name == "Fruit") {
         this.updateFruit(this.fruitFilters[selection[0].row + 1].value);
       }
-      if (this.name == "pet") {
+      if (this.name == "Pet") {
         this.updatePet(this.petFilters[selection[0].row + 1].value);
       }
-      if (this.name == "age") {
+      if (this.name == "Age") {
         let minAge = this.getDataMinAge;
         let range = 5;
         while (minAge % range != 0) {
@@ -80,9 +80,8 @@ export default {
   data() {
     return {
       chartOptions: {
-        width: window.innerWidth * 0.3,
+        width: window.innerWidth * 0.45,
         height: 400,
-        title: this.name,
       },
       mapOptions: {
         backgroundColor: "#81d4fa",

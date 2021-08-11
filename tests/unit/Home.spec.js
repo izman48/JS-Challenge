@@ -2,11 +2,8 @@
 import Vuex from "vuex";
 import Home from "@/views/Home.vue";
 import { mount } from "@vue/test-utils";
-import { createStore } from "vuex";
 import { actions, mutations, getters } from "@/store/index.js";
 import json from "@/assets/testData.json";
-
-const dispatch = jest.fn();
 
 describe("Home.vue Unit Tests", () => {
   let store;
@@ -33,7 +30,7 @@ describe("Home.vue Unit Tests", () => {
       actions: actions,
       getters: getters,
     });
-    store.dispatch = jest.fn();
+    // store.dispatch = jest.fn();
     wrapper = mount(Home, {
       // store {
       global: {

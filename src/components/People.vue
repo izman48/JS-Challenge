@@ -57,7 +57,7 @@
       >
         edit
       </button>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <div class="btn-group justify-content-md-end">
         <!-- <div class="col-auto center"> -->
         <button
           class="btn btn-secondary"

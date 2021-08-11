@@ -1,15 +1,13 @@
 // test all the actions
 import Vuex from "vuex";
 import { actions, mutations } from "@/store/index.js";
-import json from "@/assets/people.json";
+import json from "@/assets/testData.json";
 
 const dispatch = jest.fn();
 
 describe("actions", () => {
   let store;
-  let setDataMock;
   beforeEach(() => {
-    setDataMock = jest.fn();
     store = new Vuex.Store({
       state: {
         data: json,

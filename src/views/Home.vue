@@ -99,17 +99,15 @@
             </option>
           </select>
         </div>
-        <div class="col-auto">
+        <div class="col-auto btn-group">
           <button
             class="btn btn-secondary"
             id="go"
             type="submit"
             v-on:click="goSearch"
           >
-            Go
+            Search
           </button>
-        </div>
-        <div class="col-auto">
           <button
             class="btn btn-secondary"
             id="reset"
@@ -121,39 +119,42 @@
         </div>
       </div>
     </div>
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <!-- <div class="d-grid gap-2 d-md-flex justify-content-md-end">
       <button class="btn btn-secondary" v-on:click="hideChart">
         {{ hideMessage }}
       </button>
-    </div>
-    <div class="charts-wrapper" v-show="hide == false">
+    </div> -->
+    <div class="charts-wrapper">
+      <div class="btn-group justify-content-md-end">
+        <button class="btn btn-secondary" v-on:click="switchChartType">
+          {{ buttonMessage }}
+        </button>
+        <button class="btn btn-secondary pull-right" v-on:click="hideChart">
+          {{ hideMessage }}
+        </button>
+      </div>
       <div class="row gy-2 gx-3">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button class="btn btn-secondary" v-on:click="switchChartType">
-            {{ buttonMessage }}
-          </button>
-        </div>
-        <div class="col-auto text-center">
+        <div class="col-auto text-center center" v-show="hide == false">
           <!-- <h4>Pet Data</h4> -->
-          <Charts :chartData="petData()" :type="type" :name="'pet'" />
+          <Charts :chartData="petData()" :type="type" :name="'Pet'" />
         </div>
-        <div class="col-auto text-center">
+        <div class="col-auto text-center center" v-show="hide == false">
           <!-- <h4>Age Data</h4> -->
-          <Charts :chartData="ageData()" :type="type" :name="'age'" />
+          <Charts :chartData="ageData()" :type="type" :name="'Age'" />
         </div>
-        <div class="col-auto text-center">
+        <div class="col-auto text-center center" v-show="hide == false">
           <!-- <h4>Gender Data</h4> -->
-          <Charts :chartData="genderData()" :type="type" :name="'gender'" />
+          <Charts :chartData="genderData()" :type="type" :name="'Gender'" />
         </div>
-        <div class="col-auto text-center">
+        <div class="col-auto text-center center" v-show="hide == false">
           <!-- <h4>Eye Data</h4> -->
-          <Charts :chartData="eyeData()" :type="type" :name="'eyeColor'" />
+          <Charts :chartData="eyeData()" :type="type" :name="'Eye Color'" />
         </div>
-        <div class="col-auto text-center">
+        <div class="col-auto text-cente center" v-show="hide == false">
           <!-- <h4>Fruit Data</h4> -->
-          <Charts :chartData="fruitData()" :type="type" :name="'fruit'" />
+          <Charts :chartData="fruitData()" :type="type" :name="'Fruit'" />
         </div>
-        <div class="col-auto center text-center">
+        <div class="col-auto center text-center" v-show="hide == false">
           <!-- <h4>Fruit Data</h4> -->
           <Charts :chartData="mapData()" :type="'map'" :name="'Locations'" />
         </div>
@@ -474,10 +475,13 @@ export default {
 </script>
 
 <style scoped>
+.header {
+  background: #0099ff;
+}
 .search-wrapper {
   display: flex;
   padding: 10px;
-  background: orange;
+  background: #0099ff;
   align-items: center;
 }
 
